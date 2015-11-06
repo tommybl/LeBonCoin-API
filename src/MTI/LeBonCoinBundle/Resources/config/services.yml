@@ -1,0 +1,4 @@
+services:
+#    mti_le_bon_coin.example:
+#        class: MTI\LeBonCoinBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

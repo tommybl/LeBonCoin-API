@@ -1,0 +1,25 @@
+mti_le_bon_coin_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: MTILeBonCoinBundle:Default:index }
+
+mti_le_bon_coin_homepage2:
+    path:     /leboncoin/get/ads/offers/
+    defaults: { _controller: MTILeBonCoinBundle:Default:offers }
+
+mti_le_bon_coin_homepage3:
+    path:     /leboncoin/get/ads/demands/
+    defaults: { _controller: MTILeBonCoinBundle:Default:demands }
+
+mti_le_bon_coin_homepage4:
+    path:     /leboncoin/get/ads/{adID}/
+    defaults: { _controller: MTILeBonCoinBundle:Default:ads }
+
+mti_le_bon_coin_homepage5:
+    path:     /leboncoin/post/mail/{adID}/
+    defaults: { _controller: MTILeBonCoinBundle:Default:mail }
+    methods:  [POST]
+
+mti_le_bon_coin_homepage6:
+    path:     /leboncoin/post/ad/
+    defaults: { _controller: MTILeBonCoinBundle:Default:post }
+    methods:  [POST]

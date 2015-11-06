@@ -1,0 +1,4 @@
+services:
+#    mti_api_project_home.example:
+#        class: MTI\ApiProjectHomeBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

@@ -1,0 +1,14 @@
+<?php
+
+namespace MTI\UserBackOfficeBundle\Entity;
+
+class Call
+{
+	protected $id;
+
+	protected $userid;
+
+	protected $date;
+
+	protected $created;
+}

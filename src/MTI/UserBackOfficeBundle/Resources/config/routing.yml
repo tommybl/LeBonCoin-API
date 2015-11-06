@@ -1,0 +1,23 @@
+mti_user_back_office_homepage:
+    path:     /backoffice
+    defaults: { _controller: MTIUserBackOfficeBundle:Backoffice:index }
+
+mti_user_back_office_addtest:
+    path:     /addtest
+    defaults: { _controller: MTIUserBackOfficeBundle:Backoffice:create }
+
+mti_user_back_office_show:
+    path:     /show/{id}
+    defaults: { _controller: MTIUserBackOfficeBundle:Backoffice:show }
+
+mti_user_back_office_json:
+    path:     /testjson
+    defaults: { _controller: MTIUserBackOfficeBundle:Backoffice:testjson }
+
+mti_user_back_office_addcall:
+    path:     /addcall
+    defaults: { _controller: MTIUserBackOfficeBundle:Backoffice:addCall }
+
+mti_user_back_office_update:
+    path:     /update
+    defaults: { _controller: MTIUserBackOfficeBundle:Backoffice:update }

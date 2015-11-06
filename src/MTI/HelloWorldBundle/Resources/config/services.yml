@@ -1,0 +1,4 @@
+services:
+#    mti_hello_world.example:
+#        class: MTI\HelloWorldBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

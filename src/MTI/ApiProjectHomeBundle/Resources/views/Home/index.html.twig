@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr" ng-app="surveyManiaApp" id="app-container">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>API</title>
+        <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/homepage.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/animate.min.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
+        <script src="{{asset('js/jquery-1.11.3.min.js')}}"></script>
+        <script src="{{asset('js/wow.min.js')}}"></script>
+        <script src="{{asset('js/scroll.js')}}"></script>
+    </head>
+    <body>
+        {% include "::navbar.html.twig" %}
+        {% if error is defined %}
+            {% if error %}
+                <div class="alert alert-danger">{{ error.message }}</div>
+            {% endif %}
+        {% endif %}
+         <section id="family" class="col-md-12">
+            <div id="mini-game" class="row-centered">
+                <div class="col-md-8" style="float:none;margin:auto;">
+                    <span class="minigame-title wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="500ms">
+                        Grâce à LaBonneApi, optimisez vos recherches et vos annonces leboncoin.fr !
+                    </span>
+                    <div class="minigame-text wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="800ms">
+                        <p><strong>LaBonneApi</strong> vous permet de gérer vos recherches et vos annonces au sein d'un seul et unique service !</p> 
+                        <p>Obtenez des milliers d'annonces en <strong>une seule requête</strong> !</p> 
+                        <p>Ne perdez plus de <strong>temps</strong> à parcourir toutes les pages.</p> 
+                        <p>Déposez et validez une annonce en une seule étape !</p> 
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div id="feature-container" class="col-md-10">
+            <div id="feature" class="row">
+                <div class="features">
+                    <div class="col-md-3 col-sm-4 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="1600ms">
+                        <div class="feature-wrap">
+                            <i class="fa fa-cube"></i>
+                            <h2>Récupérez les annonces</h2>
+                            <h3>Récupérez les annonces suivants des critères géographiques, catégorie, prix, etc.</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="1600ms">
+                        <div class="feature-wrap">
+                            <i class="fa fa-pie-chart"></i>
+                            <h2>Statistiques</h2>
+                            <h3>Obtenez des statistiques sur vos appels et votre consommation</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-4 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="1600ms">
+                        <div class="feature-wrap">
+                            <i class="fa fa-plus"></i>
+                            <h2>Dépôts d'annonce</h2>
+                            <h3>LaBonneApi vous permet de créer une annonce en une seule requête!</h3>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-4 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="1600ms">
+                        <div class="feature-wrap">
+                            <i class="fa fa-envelope-o"></i>
+                            <h2>E-mail</h2>
+                            <h3>Envoyez des mails sur n'importe quelle annonce en un instant</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="pricing">
+            <div id="pricing-container" class="col-md-10">
+                <div class="pricing-item col-md-3 col-md-offset-1">
+                    <h3>Basique</h3>
+                    <ul>
+                        <li>50 appels</li>
+                        <li>-----</li>
+                    </ul>
+                </div>
+                <div class="pricing-item col-md-3 col-md-offset-1">
+                    <h3>pro</h3>
+                    <ul>
+                        <li>200 appels</li>
+                        <li>Showcase</li>
+                    </ul>
+                </div>
+                <div class="pricing-item col-md-3 col-md-offset-1">
+                    <h3>premium</h3>
+                    <ul>
+                        <li>500 appels</li>
+                        <li>Showcase</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="showcase" class="col-md-12" style="padding:0px;">
+            <div id="dash">
+                <span style="font-family: 'coolvetica';">Statistiques détaillées de votre consommation</span><br/>
+                <span style="font-size: 20px;">Nombres d'appels totaux, par jour, par catégorie, par région, etc.</span>
+            </div>
+        </div>
+        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog row-centered">
+                <div class="modal-content col-sm-12 col-centered signup">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Inscrivez-vous !</h4>
+                    </div>
+                    <div class="modal-body">
+                        <!-- <div id="login-error" class="alert alert-danger alert-dismissible fade in" role="alert">
+                            <button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        </div> -->
+                        <form action="{{ path('mti_user_back_office_addtest') }}" method="post">
+                            <input type="text" id="username" name="_username" class="form-control" placeholder="Prenom"/> 
+                            <br/>
+                            <input type="text" id="lastname" name="_lastname" class="form-control" placeholder="Nom de famille"/> <br/>
+                            <input type="password" id="password" name="_password" placeholder="Password" class="form-control" /> <br>
+                            <input type="text" id="email" name="_email" placeholder="Email" class="form-control" /> <br>
+                            <input type="submit" value="S'inscrire" class="btn btn-primary" />
+                        </form><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog row-centered">
+                <div class="modal-content col-sm-12 col-centered signup">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Identifiez-vous !</h4>
+                    </div>
+                    <div class="modal-body">
+                        <!-- <div id="login-error" class="alert alert-danger alert-dismissible fade in" role="alert">
+                            <button type="button" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        </div> -->
+                        <form action="{{ path('login_check') }}" method="post">
+                            <input type="text" id="username" name="_username" class="form-control" placeholder="Login"/> 
+                            <br/>
+                            <input type="password" type="password" id="password" name="_password" placeholder="Password" class="form-control" /> <br>
+                            <input type="submit" value="S'identifier" class="btn btn-primary" />
+                        </form><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="{{asset('js/bootstrap.min.js')}}"></script>
+    <script>
+     new WOW().init();
+
+     
+   $(function() {
+    $('html').smoothScroll(500);
+   });
+    </script>
+</html>

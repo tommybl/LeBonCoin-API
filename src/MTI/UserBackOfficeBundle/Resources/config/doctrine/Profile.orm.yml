@@ -1,0 +1,35 @@
+MTI\UserBackOfficeBundle\Entity\Profile:
+    type: entity
+    table: profile
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        password:
+            type: string
+            length: 255
+        username:
+            type: string
+            length: 100
+        lastname:
+            type: string
+            length: 100
+        email:
+            type: string
+            length: 100
+        publicapikey:
+            type: string
+            length: 100
+        secretapikey:
+            type: string
+            length: 100
+        salt:
+            type: string
+            length: 255
+        roles:
+            type: array
+        subscribe:
+            type: integer
+            length: 11
+

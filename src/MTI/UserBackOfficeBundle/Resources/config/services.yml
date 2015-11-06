@@ -1,0 +1,4 @@
+services:
+#    mti_user_back_office.example:
+#        class: MTI\UserBackOfficeBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

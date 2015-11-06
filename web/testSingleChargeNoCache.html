@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr" ng-app="surveyManiaApp" id="app-container">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Test montée en charge single</title>
+        <script src="js/jquery-1.11.3.min.js"></script>
+        <script type="text/javascript">
+        var centi=0;
+        var secon=0;
+        var minu=0 ;
+
+        function chrono(){
+        centi++; 
+        if (centi>9){centi=0;secon++} 
+        if (secon>59){secon=0;minu++} 
+        document.forsec.secc.value=" "+centi;
+        document.forsec.seca.value=" "+secon;
+        document.forsec.secb.value=" "+minu;
+        compte=setTimeout('chrono()',100);
+        }
+
+        function rasee(){ //fonction qui remet les compteurs à 0
+        clearTimeout(compte) //arrête la fonction chrono()
+        centi=0;
+        secon=0;
+        minu=0;
+        document.forsec.secc.value=" "+centi;
+        document.forsec.seca.value=" "+secon;
+        document.forsec.secb.value=" "+minu;
+        }
+
+        function startCharge () {
+            chrono();
+            var url = 'http://localhost/ApiProject/web/app_dev.php/leboncoin/get/ads/offers/?token=TmpjeU5qazJPRE15Ok1UZ3pOVE14TXpFNU1RPT0=&cache=false';
+            var counter_total = 20;
+            var counter_error = 0;
+            var counter = 0;
+
+            $('body').append('<h1 id="total_div">' + (counter) + '/' + counter_total + '</h1>');
+            var total_div = $('#total_div');
+
+            for (var i = 0; i < counter_total; i++) {
+                $.ajax({url: url})
+                    .done(function(data) {
+                        console.log(data);
+                        $('body').append('<div><strong>' + (counter+1) + '</strong> - ' + '<span style="color: green">SUCCESS</span></div>');
+                        counter++;
+                        total_div.html((counter) + '/' + counter_total);
+                        if (counter == counter_total) clearTimeout(compte);
+                    })
+                    .fail(function(jqXHR, textStatus, errorThrown) {
+                        console.log(textStatus);
+                        console.log(errorThrown);
+                        $('body').append('<div><strong>' + (counter+1) + '</strong> - ' + '<span style="color: red">ERROR</span></div>');
+                        counter_error++;
+                        counter++;
+                        total_div.html((counter) + '/' + counter_total);
+                        if (counter == counter_total) clearTimeout(compte);
+                    });
+            }
+        }
+
+        </script>
+    </head>
+    <body style="padding: 30px">
+        <h4>http://localhost/ApiProject/web/app_dev.php/leboncoin/get/ads/offers/?token=TmpjeU5qazJPRE15Ok1UZ3pOVE14TXpFNU1RPT0=&cache=false</h4><br>
+        <button onclick="startCharge()">Start</button><br><br>
+        <form name="forsec">
+        <input type="text" size="1" name="secb" disabled style="background-color: white"> :
+        <input type="text" size="1" name="seca" disabled style="background-color: white"> :
+        <input type="text" size="1" name="secc" disabled style="background-color: white"> 
+        </form>
+    </body>
+</html>

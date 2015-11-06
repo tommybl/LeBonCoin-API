@@ -1,0 +1,27 @@
+MTI\UserBackOfficeBundle\Entity\Call:
+    type: entity
+    table: call
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        userid:
+            type: integer
+            length: 11
+        type:
+            type: integer
+            length: 11
+        created:
+            type: datetime
+        region:
+            type: string
+            length: 100
+            nullable: TRUE
+        category:
+            type: integer
+            length: 11
+            nullable: TRUE
+
+    lifecycleCallbacks:
+        prePersist: [setCreatedValue]

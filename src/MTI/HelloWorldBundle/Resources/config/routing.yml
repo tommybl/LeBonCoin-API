@@ -1,0 +1,7 @@
+mti_hello_world_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: MTIHelloWorldBundle:Default:index }
+
+hello_the_world:
+    path:     /hello-world
+    defaults: { _controller: MTIHelloWorldBundle:Advert:index }

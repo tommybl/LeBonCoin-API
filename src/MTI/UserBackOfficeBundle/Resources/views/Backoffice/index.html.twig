@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="fr" ng-app="surveyManiaApp" id="app-container">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>API</title>
+        <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/homepage.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/animate.min.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/backoffice.css')}}" rel="stylesheet" type="text/css">
+        <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
+        <script src="{{asset('js/jquery-1.11.3.min.js')}}"></script>
+        <script src="{{asset('js/bootstrap.min.js')}}"></script>
+        <script src="{{asset('js/wow.min.js')}}"></script>
+		    <script src="{{asset('js/gauge.js')}}"></script>
+        <script src="{{asset('js/chart.js')}}"></script>
+        <script src="{{asset('js/chartjslegend.js')}}"></script>
+        <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['geochart']}]}"></script>
+    </head>
+    <body>
+        {% include "::navbar.html.twig" %}
+        <div id="sub-menu">
+          <div id="burger-menu">
+            <div class="fa fa-bars" style="cursor: pointer"><span>Menu</span></div>
+          </div>
+          <div style="display: inline-block;padding-left:50px;">
+            <span class="label label-success">Clé publique de l'API</span> {{ app.user.publicapikey }}
+            <span class="label label-danger" style="margin-left:50px">Clé privée de l'API</span> {{ app.user.secretapikey }}
+            <span class="label label-default" style="margin-left:50px">Token généré</span> {{ token }}
+          </div>
+        </div>
+        <div id="sidebar" role="tablist" style="margin-left: -240px; display: none;">
+          <ul>
+            <li role="presentation">
+              <a href="#dashboard" id="dashboard-tab" role="tab" data-toggle="tab" aria-controls="dashboard" aria-expanded="true">
+                  <i class="fa fa-th"><span>Dashboard</span></i>
+              </a>
+            </li>
+            <li role="presentation">
+              <a href="#profile" id="profile-tab" role="tab" data-toggle="tab" aria-controls="profile">
+                <i class="fa fa-user"><span>Profil</span></i>
+              </a>
+            </li>
+            <li role="presentation">
+              <a href="#monboncoin" id="monboncoin-tab" role="tab" data-toggle="tab" aria-controls="monboncoin">
+                <i class="fa fa-cube"><span>MonBonCoin</span></i>
+              </a>
+            </li>
+            <li role="presentation">
+              <a href="#mondepot" id="mondepot-tab" role="tab" data-toggle="tab" aria-controls="depot">
+                <i class="fa fa-plus"><span>MonDépôt</span></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div id="bo-content" class="tab-content">
+          <div role="tabpanel" id="dashboard" class="tab-pane fade active in" aria-labelledby="dashboard-tab">
+            <div class="row">
+            <div class="col-sm-3" id="limit">
+              <div style="padding: 6px 10px 30% 10px; background-color: white">
+              <div class="chartcontainer">
+                <h3>Nombre d'appels</h3>
+            		<canvas id="foo" style="margin: 0; width: 100%"></canvas>
+                <div id="gauge-value"></div>
+              </div>
+              </div>
+            </div>
+            <div class="col-sm-4" style="position:relative">
+                <div style="padding: 0 10px 6% 10px; background-color: white; overflow: hidden">
+                <h3 style="margin-top: 32px; margin-bottom:27px; text-align: center">Statistiques</h3>
+              <div class="chartcontainer" style="width: 51%; float: left">
+                <canvas id="myChart" width="150" height="150" style="margin: 0"></canvas>
+              </div>
+              <div id="legend" style="width: 49%; float: right; margin: 20px 0 0 0; padding-left: 10%"></div>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div style="padding: 0 10px 5% 10px; background-color: white">
+              <div class="chartcontainer">
+                <h3 style="margin-bottom:27px;">Nombre d'appels</h3>
+                <canvas id="myChart2" width="550" height="231" style="margin: 0"></canvas>
+              </div>
+                </div>
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-sm-5" id="dashboard-categories" style="margin-top: 25px; margin-bottom: 50px">
+                <div style="padding: 0 10px 5% 10px; background-color: white">
+              <div class="chartcontainer"> 
+                <h3 style="margin-bottom:27px;">Top 10 categories</h3>
+                <canvas id="myChart3"></canvas>
+              </div>
+                </div>
+            </div>
+            <div class="col-sm-7" style="margin-top: 25px; margin-bottom: 50px">
+                <div style="padding: 0; margin: 0; background-color: white; overflow: hidden">
+                  <div id="regions_div" style="float: right; margin-top: -5px"></div>
+                </div>
+            </div>
+            </div>
+        </div>
+          <div role="tabpanel" id="profile" class="tab-pane fade" aria-labelledby="profile-tab">
+            <div class="col-md-5">
+              <div class="panel panel-default" id="profile-settings" style="padding-left:0px;padding-right:0px;">
+                <div class="panel-heading">
+                  <i class="fa fa-user"></i> Profil
+                </div>
+                <div class="panel-body">
+                  <div class="form-group group-clear">
+                    <label class="col-sm-4 control-label">Prénom:</label>
+                    <div class="col-sm-7">{{app.user.username}}</div>
+                  </div>
+                  <div class="form-group group-clear">
+                    <label class="col-sm-4 control-label">Nom:</label>
+                    <div class="col-sm-7">{{app.user.lastname}}</div>
+                  </div>
+                  <div class="form-group group-clear">
+                    <label class="col-sm-4 control-label">Email:</label>
+                    <div class="col-sm-7">{{app.user.email}}</div>
+                  </div>
+                  <div class="form-group group-clear">
+                    <label class="col-sm-4 control-label">Forfait:</label>
+                    <div class="col-sm-7">
+                      {% if app.user.subscribe == 1 %}
+                        Basique
+                      {% endif %}
+                      {% if app.user.subscribe == 2 %}
+                        Pro
+                      {% endif %}
+                      {% if app.user.subscribe == 3 %}
+                        Premium
+                      {% endif %}
+                    </div>
+                  </div>
+                  <div class="form-group group-clear">
+                    <label class="col-sm-4 control-label">Consommation:</label>
+                    <div class="col-sm-7">
+                      {% if app.user.subscribe == 1 %}
+                        {{ countcall[1] }} / 50
+                      {% endif %}
+                      {% if app.user.subscribe == 2 %}
+                        {{ countcall[1] }} / 200
+                      {% endif %}
+                      {% if app.user.subscribe == 3 %}
+                        {{ countcall[1] }} / 500
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <div id="pricing" class="col-md-7">
+            <div id="pricing-container" class="col-md-12">
+                <div class="pricing-item {% if app.user.subscribe == 1 %} current_offer {% endif %} col-md-3 col-md-offset-1">
+                    <h3>Basique</h3>
+                    <ul>
+                        <li>50 <br/>appels</li>
+                        <li>-----</li>
+                    </ul>
+                    <form action="{{ path('mti_user_back_office_update') }}" method="post">
+                      <input type="hidden" value="1" name="offer" />
+                      <button type="submit">
+                        {% if app.user.subscribe == 1 %} Votre abonnement {% else %} Changer d'offre {% endif %}
+                      </button>
+                    </form>
+                </div>
+                <div class="pricing-item {% if app.user.subscribe == 2 %} current_offer {% endif %} col-md-3 col-md-offset-1">
+                    <h3>pro</h3>
+                    <ul>
+                        <li>200 appels</li>
+                        <li>Showcase</li>
+                    </ul>
+                    <form action="{{ path('mti_user_back_office_update') }}" method="post">
+                      <input type="hidden" value="2" name="offer" />
+                      <button type="submit">
+                        {% if app.user.subscribe == 2 %} Votre abonnement {% else %} Changer d'offre {% endif %}
+                      </button>
+                    </form>
+                </div>
+                <div class="pricing-item {% if app.user.subscribe == 3 %} current_offer {% endif %} col-md-3 col-md-offset-1">
+                    <h3>premium</h3>
+                    <ul>
+                        <li>500 appels</li>
+                        <li>Showcase</li>
+                    </ul>
+                    <form action="{{ path('mti_user_back_office_update') }}" method="post">
+                      <input type="hidden" value="3" name="offer" />
+                      <button type="submit">
+                        {% if app.user.subscribe == 3 %} Votre abonnement {% else %} Changer d'offre {% endif %}
+                      </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div role="tabpanel" id="monboncoin" class="tab-pane fade" aria-labelledby="monboncoin-tab">
+          <div id="annonces" class="col-md-4">
+            <div class="col-md-6">
+              <select class="form-control col-md-6" name="region">
+                <option value="all">Toute la France</option>
+                <option value="alsace">Alsace</option>
+                <option value="auvergne">Auvergne</option>
+                <option value="basse_normandie">Basse normandie</option>
+                <option value="bourgogne">Bourgogne</option>
+                <option value="bretagne">Bretagne</option>
+                <option value="centre">Centre</option>
+                <option value="champagne_ardenne">Champagne ardenne</option>
+                <option value="corse">Corse</option>
+                <option value="franche_comte">Franche compté</option>
+                <option value="haute_normandie">Haute normandie</option>
+                <option value="ile_de_france">Ile de france</option>
+                <option value="languedoc_roussillon">Languedoc roussillon</option>
+                <option value="limousin">Limousin</option>
+                <option value="lorraine">Lorraine</option>
+                <option value="midi_pyrenees">Midi pyrenées</option>
+                <option value="nord_pas_de_calais">Nord pas de calais</option>
+                <option value="pays_de_la_loire">Pays de la loire</option>
+                <option value="poitou_charentes">Poitou charentes</option>
+                <option value="provence_alpes_cote_d_azur">Provence alpes code d'azur</option>
+                <option value="rhone_alpes">Rhône alpes</option>
+                <option value="guadeloupe">Guadeloupe</option>
+                <option value="martinique">Martinique</option>
+                <option value="guyane">Guyane</option>
+                <option value="reunion">Reunion</option>
+              </select>
+            </div>
+             <div class="input-group col-md-6">
+              <input type="text" class="form-control" name="usersearchfield" placeholder="Search for...">
+              <span class="input-group-btn">
+                <button class="btn btn-default searchAnnonces" type="button">Go!</button>
+              </span>
+            </div>
+            <div id="allannonces"></div>
+          </div>
+          <div id="annonce" class="col-md-7 col-md-offset-5">
+          </div>
+          <script type="text/javascript">
+
+          var getArticles = function ($url)
+          {
+            $.getJSON($url, function(data) {
+              $.each(data['articles'], function(index, value){
+                var str = "<div id='"+value['ref']+"' class='annoncesList'>"; 
+                  str += "<a href='' class='displayAnnonce'>";
+                  if(value['image']) str += "<div class='col-md-4'><img class='imagethumb' src='"+value['image']+"' />";
+                  if(value['nb_images'] > 0) str += "<span class='badge'>"+value['nb_images']+"</span></div>";
+                  str += "<div class='col-md-8'>"+value['title'];
+                  str += "</div></a>";
+                  str += "<span class='date'>"+value['date']+"</span>";
+                  if(value['price']) str += "<span class='label label-price'>"+value['price']+"€</span>";
+                str += "</div>";
+                $("#allannonces").append(str);
+              });
+              $('#allannonces a').click(function (e) {
+                e.preventDefault();
+                var ref = $(this).parent().attr('id');
+                var placeholderurl = "{{ path('mti_le_bon_coin_homepage4', { 'adID': 'placeholder' }) }}?token={{ token }}";
+                var url = placeholderurl.replace('placeholder', ref);
+
+                var placeholderActionurl = "{{ path('mti_le_bon_coin_homepage5',{ 'adID': 'placeholder' }) }}?token={{ token }}";
+                var actionurl = placeholderActionurl.replace('placeholder', ref);
+
+                $.getJSON(url, function(data) {
+                    $('#annonce').empty();
+                    var str2 = "";
+                    if(data['image']) str2 += "<img class='imageMain' src='"+data['image']+"' />";
+                    if(data['nb_images'] > 0)
+                    {
+                      str2 += "<div class='thumbs'>";
+                      $.each(data['thumbs'], function(index, value){
+                        str2 += "<img src='"+value+"' />";
+                      });
+                      str2+="</div>";
+                    }
+                    str2+='<div class="contact" style="display:none">';
+                      str2 += "<div class='sendingResponse'></div>";
+                      str2 += "<div class='innerContact'>";
+                        str2 += "<h3>Envoyer un mail à "+data['user']+"</h3>"
+                        str2+='<form action="'+actionurl+'" method="post" id="form-mail">';
+                          str2+='<input type="hidden" name="token" value="TWpBMk1qUXpOakV4Ok1qQTNNVEUxTlRVNE53PT0=" />';
+                          str2+='<input type="text" id="name" name="name" class="form-control" placeholder="Prenom"/> <br/>';
+                          str2+='<input type="text" id="email" name="email" placeholder="Email" class="form-control" /> <br/>';
+                          str2+='<input type="text" id="phone" name="phone" placeholder="Numéro de teléphone" class="form-control" /> ';
+                          str2+='<br/>';
+                          str2+='<textarea name="body" class="form-control"></textarea>'; 
+                          str2+='<br/>';
+                          str2+='<input type="submit" value="Envoyer" class="btn btn-primary" />';
+                        str2+='</form>';
+                      str2+='</div>';
+                    str2+='</div>';
+                    str2 +="<div class='userInfos'>";
+                      str2 += "<div class='userName'>"+data['user']+"</div>";
+                      str2 +="<div class='userAddress'>";
+                        str2 += "<span class='region'>"+data['region']+"</span>"; 
+                        str2 += "<span class='town'>"+data['town']+"</span>, ";  
+                        str2 += "<span class='postal'>"+data['postal']+"</span>";   
+                      str2 +="</div>";
+                      str2 += "<div class='aPrice'>Prix : "+data['price']+"€</div>";
+                      str2 += "<div class='aDate'>Mise en ligne : "+data['date']+"</div>";
+                      str2 += "<div class='aMail' style='margin-left: 5px;'><a href=''><i class='fa fa-envelope-o' style='margin-right:10px;'> </i>Envoyer un mail</a></div>";
+                    str2 +="</div>"; 
+                    str2 += "<h3 class='title'>"+data['title']+"</h3>";
+                    str2 += "<div class='desc'>"+data['description']+"</div>";
+                    $('#annonce').append(str2);
+                });
+              });
+            });
+          }
+          
+          getArticles("{{ path('mti_le_bon_coin_homepage2') }}?token={{ token }}");
+          </script>
+        </div>
+        <div role="tabpanel" id="mondepot" class="tab-pane fade" aria-labelledby="mondepot-tab" style="margin-bottom: 100px">
+          <div class="contact" style="border: none; width: 500px">
+              <div class='sendingResponse'></div>
+              <div class='innerContact-post'>
+                <h3>Publier une annonce</h3><br>
+                <form action="{{ path('mti_le_bon_coin_homepage6') }}?token={{ token }}" method="post" id="form-post">
+                    <select class="form-control" name="category">
+                        <option value="0">Choisissez la catégorie</option>
+                        <option value="71" style="background-color:#dcdcc3" disabled="" id="cat71">-- EMPLOI --</option>
+                        <option value="33" id="cat33">Offres d'emploi</option>
+                        <option value="1" style="background-color:#dcdcc3" disabled="" id="cat1">-- VEHICULES --</option>
+                        <option value="2" id="cat2">Voitures</option>
+                        <option value="3" id="cat3">Motos</option>
+                        <option value="4" id="cat4">Caravaning</option>
+                        <option value="5" id="cat5">Utilitaires</option>
+                        <option value="6" id="cat6">Equipement Auto</option>
+                        <option value="44" id="cat44">Equipement Moto</option>
+                        <option value="50" id="cat50">Equipement Caravaning</option>
+                        <option value="7" id="cat7">Nautisme</option>
+                        <option value="51" id="cat51">Equipement Nautisme</option>
+                        <option value="8" style="background-color:#dcdcc3" disabled="" id="cat8">-- IMMOBILIER --</option>
+                        <option value="9" id="cat9">Ventes immobilières</option>
+                        <option value="10" id="cat10">Locations</option>
+                        <option value="11" id="cat11">Colocations</option>
+                        <option value="13" id="cat13">Bureaux &amp; Commerces</option>
+                        <option value="66" style="background-color:#dcdcc3" disabled="" id="cat66">-- VACANCES --</option>
+                        <option value="12" id="cat12">Locations &amp; Gîtes</option>
+                        <option value="67" id="cat67">Chambres d'hôtes</option>
+                        <option value="68" id="cat68">Campings</option>
+                        <option value="69" id="cat69">Hôtels</option>
+                        <option value="70" id="cat70">Hébergements insolites</option>
+                        <option value="14" style="background-color:#dcdcc3" disabled="" id="cat14">-- MULTIMEDIA --</option>
+                        <option value="15" id="cat15">Informatique</option>
+                        <option value="43" id="cat43">Consoles &amp; Jeux vidéo</option>
+                        <option value="16" id="cat16">Image &amp; Son</option>
+                        <option value="17" id="cat17">Téléphonie</option>
+                        <option value="18" style="background-color:#dcdcc3" disabled="" id="cat18">-- MAISON --</option>
+                        <option value="19" id="cat19">Ameublement</option>
+                        <option value="20" id="cat20">Electroménager</option>
+                        <option value="45" id="cat45">Arts de la table</option>
+                        <option value="39" id="cat39">Décoration</option>
+                        <option value="46" id="cat46">Linge de maison</option>
+                        <option value="21" id="cat21">Bricolage</option>
+                        <option value="52" id="cat52">Jardinage</option>
+                        <option value="22" id="cat22">Vêtements</option>
+                        <option value="53" id="cat53">Chaussures</option>
+                        <option value="47" id="cat47">Accessoires &amp; Bagagerie</option>
+                        <option value="42" id="cat42">Montres &amp; Bijoux</option>
+                        <option value="23" id="cat23">Equipement bébé</option>
+                        <option value="54" id="cat54">Vêtements bébé</option>
+                        <option value="24" style="background-color:#dcdcc3" disabled="" id="cat24">-- LOISIRS --</option>
+                        <option value="25" id="cat25">DVD / Films</option>
+                        <option value="26" id="cat26">CD / Musique</option>
+                        <option value="27" id="cat27">Livres</option>
+                        <option value="28" id="cat28">Animaux</option>
+                        <option value="55" id="cat55">Vélos</option>
+                        <option value="29" id="cat29">Sports &amp; Hobbies</option>
+                        <option value="30" id="cat30">Instruments de musique</option>
+                        <option value="40" id="cat40">Collection</option>
+                        <option value="41" id="cat41">Jeux &amp; Jouets</option>
+                        <option value="48" id="cat48">Vins &amp; Gastronomie</option>
+                        <option value="56" style="background-color:#dcdcc3" disabled="" id="cat56">-- MATERIEL PROFESSIONNEL --</option>
+                        <option value="57" id="cat57">Matériel Agricole</option>
+                        <option value="58" id="cat58">Transport - Manutention</option>
+                        <option value="59" id="cat59">BTP - Chantier Gros-oeuvre</option>
+                        <option value="60" id="cat60">Outillage - Matériaux 2nd-oeuvre</option>
+                        <option value="32" id="cat32">Équipements Industriels</option>
+                        <option value="61" id="cat61">Restauration - Hôtellerie</option>
+                        <option value="62" id="cat62">Fournitures de Bureau</option>
+                        <option value="63" id="cat63">Commerces &amp; Marchés</option>
+                        <option value="64" id="cat64">Matériel Médical</option>
+                        <option value="31" style="background-color:#dcdcc3" disabled="" id="cat31">-- SERVICES --</option>
+                        <option value="34" id="cat34">Prestations de services</option>
+                        <option value="35" id="cat35">Billetterie</option>
+                        <option value="49" id="cat49">Evénements</option>
+                        <option value="36" id="cat36">Cours particuliers</option>
+                        <option value="65" id="cat65">Covoiturage</option>
+                        <option value="37" style="background-color:#dcdcc3" disabled="" id="cat37">-- -- --</option>
+                        <option value="38" id="cat38">Autres</option>
+                    </select><br>
+                    <input type="hidden" name="company_ad" class="form-control" value="0"/>
+                    <input type="radio" name="type" value="s" checked="checked"> &nbsp; Offres &nbsp; &nbsp;
+                    <input type="radio" name="type" value="k"> &nbsp; Demandes <br><br>
+                    <select name="region" class="form-control">
+                        <option value="0">Choisissez la région</option>
+                        <option value="1">Alsace</option>
+                        <option value="2">Aquitaine</option>
+                        <option value="3">Auvergne</option>
+                        <option value="4">Basse-Normandie</option>
+                        <option value="5">Bourgogne</option>
+                        <option value="6">Bretagne</option>
+                        <option value="7">Centre</option>
+                        <option value="8">Champagne-Ardenne</option>
+                        <option value="9">Corse</option>
+                        <option value="10">Franche-Comté</option>
+                        <option value="11">Haute-Normandie</option>
+                        <option value="12" selected="selected">Ile-de-France</option>
+                        <option value="13">Languedoc-Roussillon</option>
+                        <option value="14">Limousin</option>
+                        <option value="15">Lorraine</option>
+                        <option value="16">Midi-Pyrénées</option>
+                        <option value="17">Nord-Pas-de-Calais</option>
+                        <option value="18">Pays de la Loire</option>
+                        <option value="19">Picardie</option>
+                        <option value="20">Poitou-Charentes</option>
+                        <option value="21">Provence-Alpes-Côte d'Azur</option>
+                        <option value="22">Rhône-Alpes</option>
+                        <option value="23">Guadeloupe</option>
+                        <option value="24">Martinique</option>
+                        <option value="25">Guyane</option>
+                        <option value="26">Réunion</option>
+                    </select><br>
+                    <input type="text" name="dpt_code" class="form-control" placeholder="Departement code"/> <br/>
+                    <input type="text" name="zipcode" class="form-control" placeholder="Code postal"/> <br/>
+                    <input type="text" name="city" class="form-control" placeholder="Commune"/> <br/>
+                    <input type="text" name="name" class="form-control" placeholder="Prenom"/> <br/>
+                    <input type="text" name="email" placeholder="Email" class="form-control" /> <br/>
+                    <input type="text" name="phone" placeholder="Numéro de teléphone" class="form-control" /><br/>
+                    <input type="checkbox" name="phone_hidden" value="1"> &nbsp; Masquer le numéro de téléphone dans l'annonce.<br>
+                    <input type="checkbox" name="no_salesmen" value="1" checked="checked"> &nbsp; Je ne souhaite pas être sollicité par des sociétés étrangères.<br><br>
+                    <input type="text" name="subject" placeholder="Titre de l'annonce" class="form-control" /><br/>
+                    <textarea name="body" class="form-control" placeholder="Description de l'annonce"></textarea><br/>
+                    <input type="text" name="price" placeholder="Prix" class="form-control" /><br/>
+                    <input type="password" name="passwd" placeholder="Mot de passe" class="form-control" /><br/>
+                    <input type="submit" value="Envoyer" class="btn btn-primary" />
+                </form>
+              </div>
+            </div>
+        </div>
+    </div>
+		<script type="text/javascript">
+
+    var lastScrollTop = 0;
+    var annonces_div = $('#annonces');
+    var submenu_div = $('#sub-menu');
+
+    function isScrolledIntoView(elem)
+    {
+        var $elem = $(elem);
+        var $window = $(window);
+
+        var docViewTop = $window.scrollTop();
+        var docViewBottom = docViewTop + $window.height();
+
+        var elemTop = $elem.offset().top;
+        var elemBottom = elemTop + $elem.height();
+
+        return ((elemBottom <= docViewBottom) && (elemBottom >= docViewTop-20));
+    }
+
+    $(window).scroll(function() {
+       if(isScrolledIntoView(submenu_div)) {
+         var pos = submenu_div.offset().top + 55 - $(window).scrollTop();
+         annonces_div.css('top', pos + 20);
+       }
+       else {
+          annonces_div.css('top', 5);
+       }
+
+
+    });
+      $(document).on("submit", "#form-mail", function(event) {
+        event.preventDefault();
+        var dataToBeSent = $(this).serialize();
+        var url = $(this).attr('action');
+        console.log(dataToBeSent);
+        $.post(url, dataToBeSent, function(data, textStatus) {
+          $('.innerContact-post').fadeOut();
+          if(textStatus == "success") {
+                if (data.success == undefined)
+                    $('.contact').append('<div class="alert alert-danger" role="alert">'+data['error']+'</div>');
+                else $('.contact').append('<div class="alert alert-success" role="alert">'+data['success']+'</div>');
+            }
+          else
+            $('.contact').append('<div class="alert alert-error" role="alert">'+data['error']+'</div>');
+        }, "json");
+      });
+
+      $(document).on("submit", "#form-post", function(event) {
+        event.preventDefault();
+        var dataToBeSent = $(this).serialize();
+        var url = $(this).attr('action');
+        console.log(url);
+        console.log(dataToBeSent);
+        $.post(url, dataToBeSent, function(data, textStatus) {
+          $('.innerContact').fadeOut();
+          if(textStatus == "success") {
+                if (data.success == undefined)
+                    $('.contact').append('<br><div class="alert alert-danger" role="alert">'+data['error']+'</div>');
+                else $('.contact').append('<br><div class="alert alert-success" role="alert">'+data['success']+'</div>');
+            }
+          else
+            $('.contact').append('<br><div class="alert alert-error" role="alert">'+data['error']+'</div>');
+        }, "json");
+      });
+
+      $(document).on( "click", ".searchAnnonces", function(event) {
+        var s = $('input[name=usersearchfield]').val();
+        var region = $("select[name=region]").val();
+        event.preventDefault();
+        $("#allannonces").empty();
+        getArticles("{{ path('mti_le_bon_coin_homepage2') }}?token={{ token }}&query="+s+"&region="+region);
+      });
+
+      $(document).on( "click", "#annonce a", function(event) {
+        $(this).parent().parent().parent().find(".contact").fadeIn();
+        event.preventDefault();
+      });
+
+        var categories_match = ["All", "Offres emploie", "Voitures", "Motos", "Caravaning", "Utilitaires", "Equipement auto", "Equipement moto", "Equipement caravaning", "Nautisme", "Equipement nautisme", "Ventes immobilieres", "Locations", "Colocations", "Bureaux commerces", "Locations gites", "Chambres hotes", "Campings", "Hotels", "Hebergements insolites", "Informatique", "Consoles jeux video", "Image son", "Telephonie", "Ameublement", "Electromenager", "Arts de la table", "Decoration", "Linge de maison", "Bricolage", "Jardinage", "Vetements", "Chaussures", "Accessoires bagagerie", "Montres bijoux", "Equipement bebe", "Dvd films", "Cd musique", "Livres", "Animaux", "Velos", "Sports hobbies", "Instruments de musique", "Collection", "Jeux jouets", "Vins gastronomie", "Materiel agricole", "Transport manutention", "Chantier gros oeuvre", "Outillage materiaux", "Equipements industriels", "Restauration hotellerie", "Fournitures de bureau", "Commerces marches", "Materiel medical", "Prestations de services", "Billetterie", "Evenements", "Cours particuliers", "Covoiturage", "Autres"];
+
+        
+        var data3 = {
+            labels: [
+                  {% for key in callcategory %}
+                        categories_match[{{ key['category'] }}],
+                  {% endfor %}
+            ],
+            datasets: [
+                {
+                    label: "My First dataset",
+                    fillColor: "rgba(151,187,205,0.5)",
+                    strokeColor: "rgba(151,187,205,0.8)",
+                    highlightFill: "rgba(151,187,205,0.75)",
+                    highlightStroke: "rgba(151,187,205,1)",
+                    data: [
+                    {% for key in callcategory %}
+                                {{ key['calls'] }},
+                    {% endfor %}
+                    ]
+                }
+            ]
+        };
+        var ctx3 = document.getElementById("myChart3").getContext("2d");
+        var myBarChart = new Chart(ctx3).Bar(data3);
+
+        $(window).on('resize', function(){
+            $('#regions_div').height($('#dashboard-categories').innerHeight() + 4);
+        });
+        $('#regions_div').height($('#dashboard-categories').innerHeight() + 4);
+
+        google.setOnLoadCallback(drawRegionsMap);
+
+      function drawRegionsMap() {
+
+        var data = [
+            ['Province', 'Popularity'],
+            {% for key in callregion %}
+                ['{{ key['region'] }}', {{ key[1] }}],
+            {% endfor %}
+        ];
+        console.log(data);
+        var data = google.visualization.arrayToDataTable(data);
+
+        var options = {
+            'region': 'FR',
+            'resolution': 'provinces',
+            'colorAxis': {colors: ['#79c5ff', '#0a4e82']},
+            'backgroundColor': 'transparent'
+        };
+
+        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+        /*$(window).on('resize', function(){
+            chart.draw(data, options);
+        });*/
+        chart.draw(data, options);
+      }
+
+
+    $('#sidebar a').click(function (e) {
+      console.log("ok");
+      e.preventDefault();
+      $(this).tab('show');
+    })
+        $('.fa-bars').click(function (){
+            if ($('#sidebar').is(":visible") === true) {
+              $('#sidebar').animate({
+                'margin-left': '-240px'
+              }, {queue:false});
+              $('#bo-content').animate({
+                'margin-left':'0px', queue:false}, function(){console.log("ok");$('#sidebar').hide();}
+              );
+              setTimeout(function(){ window.dispatchEvent(new Event('resize'));}, 350);
+              setTimeout(function(){ $('#regions_div').height($('#dashboard-categories').innerHeight() + 4);}, 500);
+            } else {
+                $('#sidebar').show();
+                $('#sidebar').animate({
+                    'margin-left': '0'
+                }, {queue:false});
+                $('#bo-content').animate({
+                  'margin-left': '240px'
+                },{queue:false});
+                setTimeout(function(){ window.dispatchEvent(new Event('resize'));}, 350);
+                setTimeout(function(){ $('#regions_div').height($('#dashboard-categories').innerHeight() + 4);}, 500);
+            }
+        });
+
+			var opts = {
+			  lines: 12, // The number of lines to draw
+			  angle: 0, // The length of each line
+			  lineWidth: 0.45, // The line thickness
+			  pointer: {
+				length: 0.60, // The radius of the inner circle
+				strokeWidth: 0.033, // The rotation offset
+				color: '#000000' // Fill color
+			  },
+			  limitMax: 'false',   // If true, the pointer will not go past the end of the gauge
+			  percentColors: [[0.0, "#a9d70b" ], [0.50, "#f9c802"], [1.0, "#ff0000"]],
+			  strokeColor: '#E0E0E0',   // to see which ones work best for you
+			  generateGradient: true
+			};
+			var target = document.getElementById('foo');
+			var gauge = new Gauge(target).setOptions(opts);
+			gauge.setTextField(document.getElementById("gauge-value"));
+            {% if app.user.subscribe == 1 %}
+			     gauge.maxValue = 50; // set max gauge value
+            {% elseif app.user.subscribe == 2 %}
+                 gauge.maxValue = 200; // set max gauge value
+            {% elseif app.user.subscribe == 3 %}
+                 gauge.maxValue = 500; // set max gauge value
+            {% endif %}
+			gauge.animationSpeed = 10; // set animation speed (32 is default value)
+			gauge.set({{ countcall[1] }}); // set actual value
+
+      var colors = ["#D95B43", "#C02942", "#ECD078", "#542437", "#53777A", "#CFF09E", "#79BD9A", "#335533", "#0B486B", "#FF6B6B"];
+
+      var request_types = ['offres', 'offres part', 'offres pro', 'demandes', 'demandes part', 'demandes pro', 'annonce', 'mail', 'post'];
+
+      var colors_counter = 0;
+      var data = [
+          {% for key in calltype %}
+            {
+              value: {{ key['calls'] }},
+              color: colors[colors_counter++],
+              label: request_types[{{ key['type'] }}]
+            },
+          {% endfor %}
+        
+      ]
+      legend(document.getElementById('legend'), data);
+      var ctx = document.getElementById("myChart").getContext("2d");
+      var myDoughnutChart = new Chart(ctx).Doughnut(data);
+
+    var data2 = {
+    labels: [
+          {% for key,value in datecount %}
+                "{{ key }}",
+          {% endfor %}
+    ],
+    datasets: [
+        {
+            label: "My First dataset",
+            fillColor: "rgba(220,220,220,0.2)",
+            strokeColor: "rgba(220,220,220,1)",
+            pointColor: "rgba(220,220,220,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: [
+            {% for key,value in datecount %}
+                        "{{ value }}",
+            {% endfor %}
+            ]
+        }
+    ]
+};
+ var ctx2 = document.getElementById("myChart2").getContext("2d");
+    var myLineChart = new Chart(ctx2).Line(data2);
+
+		</script>
+	</body>
+</html>

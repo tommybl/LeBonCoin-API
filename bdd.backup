@@ -1,0 +1,420 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.4.4
+-- Dumped by pg_dump version 9.4.4
+-- Started on 2015-06-19 18:23:13
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+DROP DATABASE apiproject;
+--
+-- TOC entry 2021 (class 1262 OID 16393)
+-- Name: apiproject; Type: DATABASE; Schema: -; Owner: postgres
+--
+
+CREATE DATABASE apiproject WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'French_France.1252' LC_CTYPE = 'French_France.1252';
+
+
+ALTER DATABASE apiproject OWNER TO postgres;
+
+\connect apiproject
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 5 (class 2615 OID 2200)
+-- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA public;
+
+
+ALTER SCHEMA public OWNER TO postgres;
+
+--
+-- TOC entry 2022 (class 0 OID 0)
+-- Dependencies: 5
+-- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON SCHEMA public IS 'standard public schema';
+
+
+--
+-- TOC entry 178 (class 3079 OID 11855)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2024 (class 0 OID 0)
+-- Dependencies: 178
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 177 (class 1259 OID 16418)
+-- Name: cache; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE cache (
+    id integer NOT NULL,
+    created timestamp(0) without time zone NOT NULL,
+    request character varying(1000) NOT NULL,
+    response character varying(30000) NOT NULL
+);
+
+
+ALTER TABLE cache OWNER TO postgres;
+
+--
+-- TOC entry 176 (class 1259 OID 16416)
+-- Name: cache_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE cache_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE cache_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 174 (class 1259 OID 16398)
+-- Name: call; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE call (
+    id integer NOT NULL,
+    userid integer NOT NULL,
+    type integer NOT NULL,
+    created timestamp(0) without time zone NOT NULL,
+    region character varying(100) DEFAULT NULL::character varying,
+    category integer
+);
+
+
+ALTER TABLE call OWNER TO postgres;
+
+--
+-- TOC entry 172 (class 1259 OID 16394)
+-- Name: call_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE call_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE call_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 175 (class 1259 OID 16403)
+-- Name: profile; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE profile (
+    id integer NOT NULL,
+    password character varying(255) NOT NULL,
+    username character varying(100) NOT NULL,
+    lastname character varying(100) NOT NULL,
+    email character varying(100) NOT NULL,
+    publicapikey character varying(100) NOT NULL,
+    secretapikey character varying(100) NOT NULL,
+    salt character varying(255) NOT NULL,
+    roles text NOT NULL,
+    subscribe integer NOT NULL
+);
+
+
+ALTER TABLE profile OWNER TO postgres;
+
+--
+-- TOC entry 2025 (class 0 OID 0)
+-- Dependencies: 175
+-- Name: COLUMN profile.roles; Type: COMMENT; Schema: public; Owner: postgres
+--
+
+COMMENT ON COLUMN profile.roles IS '(DC2Type:array)';
+
+
+--
+-- TOC entry 173 (class 1259 OID 16396)
+-- Name: profile_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE profile_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE profile_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2016 (class 0 OID 16418)
+-- Dependencies: 177
+-- Data for Name: cache; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO cache VALUES (29, '2015-06-18 21:15:28', 'http://www.leboncoin.fr/annonces/820705358.htm', '{"ref":"820705358","ads":"offers","type":"ind","user":"EREN","region":"Val-de-Marne","town":"Thiais","postal":"94320","category":"Voitures","title":"3.0DA  LUXE","price":"10000","description":"             Bo\u00eete vitesse neuf direction assiste neuf plus 4 pneus          ","date":"18 juin 20:56","image":"http://img0.leboncoin.fr/images/d13/d13e397b907e2f85c1254b74add4102102846adf.jpg","nb_images":3,"thumbs":["http://img0.leboncoin.fr/thumbs/d13/d13e397b907e2f85c1254b74add4102102846adf.jpg","http://img4.leboncoin.fr/thumbs/ac8/ac8455a5ade1aa79f1fd0dc929131de6529c7bcb.jpg","http://img7.leboncoin.fr/thumbs/915/91547acd74918e56fa556f4f4d640873e975eedd.jpg"]}');
+INSERT INTO cache VALUES (30, '2015-06-18 21:16:10', 'http://www.leboncoin.fr/annonces/demandes/?&f=a', '{"page":"1","current":"1-35","total":"299112","individual":"295212","professional":"3900","ads":"demands","type":"all","region":"All","town":null,"category":"annonces","sort":"date","query":null,"articles":[{"ref":"820705342","url":"http://www.leboncoin.fr/jardinage/820705342.htm?ca=12_k","title":"Recherche terre remblais  vegetale  gravats","category":"Jardinage","region":"Creuse","town":"Saint-Vaury","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:56"},{"ref":"820705260","url":"http://www.leboncoin.fr/chaussures/820705260.htm?ca=12_k","title":"Sandales De Plage En Pointure 40","category":"Chaussures","region":"Ni\u00e8vre","town":"Sermoise-sur-Loire","price":null,"image":"http://img2.leboncoin.fr/thumbs/8f3/8f3ffaa4ba2c86e03e568304007c2c347cf2a933.jpg","nb_images":"1","date":"Aujourd''hui 20:55"},{"ref":"820705224","url":"http://www.leboncoin.fr/voitures/820705224.htm?ca=12_k","title":"Echange moto plus voiture","category":"Voitures","region":"Lot","town":"Cahors","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:55"},{"ref":"820705185","url":"http://www.leboncoin.fr/equipement_auto/820705185.htm?ca=12_k","title":"Recherche bloc chauffage pour citroen jumper","category":"Equipement Auto","region":"Moselle","town":"all","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:55"},{"ref":"820705140","url":"http://www.leboncoin.fr/offres_d_emploi/820705140.htm?ca=12_k","title":"Recherche Extra Serveuse","category":"Offres d''emploi","region":"Rh\u00f4ne","town":"Meyzieu","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:55"},{"ref":"820705116","url":"http://www.leboncoin.fr/jeux_jouets/820705116.htm?ca=12_k","title":"Star wars","category":"Jeux &amp; Jouets","region":"Bas-Rhin","town":"S\u00e9lestat","price":null,"image":"http://img5.leboncoin.fr/thumbs/1d2/1d221ae2b095b6d93d12e95211c9f1f2f4a10279.jpg","nb_images":"3","date":"Aujourd''hui 20:55"},{"ref":"820705109","url":"http://www.leboncoin.fr/locations/820705109.htm?ca=12_k","title":"Maison","category":"Locations","region":"Charente","town":"all","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:55"},{"ref":"820705081","url":"http://www.leboncoin.fr/ventes_immobilieres/820705081.htm?ca=12_k","title":"Recherche terrain &agrave; Kersaint Plabennec","category":"Ventes immobili&egrave;res","region":"Finist\u00e8re","town":"Kersaint-Plabennec","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:55"},{"ref":"820705076","url":"http://www.leboncoin.fr/collection/820705076.htm?ca=12_k","title":"Pin''s","category":"Collection","region":"Maine-et-Loire","town":"Segr\u00e9","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:55"},{"ref":"820705028","url":"http://www.leboncoin.fr/equipement_auto/820705028.htm?ca=12_k","title":"Opel astra h gtc ( accesoire)","category":"Equipement Auto","region":"C\u00f4tes-d''Armor","town":"Saint-Brieuc","price":null,"image":"http://img0.leboncoin.fr/thumbs/e4f/e4fae62778f7ac115624ee7cd18c718b5c16d03c.jpg","nb_images":"3","date":"Aujourd''hui 20:55"},{"ref":"820704994","url":"http://www.leboncoin.fr/offres_d_emploi/820704994.htm?ca=12_k","title":"Recherche job d &eacute;t&eacute;","category":"Offres d''emploi","region":"Loire","town":"Cuzieu","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:54"},{"ref":"820704968","url":"http://www.leboncoin.fr/locations/820704968.htm?ca=12_k","title":"Cherche maison a louer","category":"Locations","region":"Ardennes","town":"Sedan","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:54"},{"ref":"820704901","url":"http://www.leboncoin.fr/locations/820704901.htm?ca=12_k","title":"Cherche petite maison","category":"Locations","region":"Lot","town":"Cahors","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:54"},{"ref":"820704717","url":"http://www.leboncoin.fr/caravaning/820704717.htm?ca=12_k","title":"CHERCHE COMBI VW T2 ou T3","category":"Caravaning","region":"Haut-Rhin","town":"Mulhouse","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:53"},{"ref":"725859704","url":"http://www.leboncoin.fr/offres_d_emploi/725859704.htm?ca=12_k","title":"Tr&egrave;s bon T&eacute;l&eacute;prospecteur commercial","category":"Offres d''emploi","region":"Pyr\u00e9n\u00e9es-Orientales","town":"Perpignan","price":null,"image":"http://img6.leboncoin.fr/thumbs/c95/c95830c88e61e8496e154e686d87eaa3a24511c9.jpg","nb_images":"1","date":"Aujourd''hui 20:53"},{"ref":"795280569","url":"http://www.leboncoin.fr/equipement_auto/795280569.htm?ca=12_k","title":"Crochet attelage","category":"Equipement Auto","region":"Seine-Maritime","town":"Froberville","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:53"},{"ref":"770465969","url":"http://www.leboncoin.fr/livres/770465969.htm?ca=12_k","title":"Le refuge des chats de Magdolena MERAI","category":"Livres","region":"Val-d''Oise","town":"Piscop","price":null,"image":"http://img1.leboncoin.fr/thumbs/e00/e00da758a1bad745601cc1add668ccaaf3754abd.jpg","nb_images":"1","date":"Aujourd''hui 20:53"},{"ref":"820704482","url":"http://www.leboncoin.fr/telephonie/820704482.htm?ca=12_k","title":"IPhone 4S 16 Go blanc","category":"T&eacute;l&eacute;phonie","region":"Haute-Garonne","town":"Mondonville","price":null,"image":"http://img6.leboncoin.fr/thumbs/293/293cfc64a914d9f78d4d14c16da39d0068fb9104.jpg","nb_images":"3","date":"Aujourd''hui 20:52"},{"ref":"820704471","url":"http://www.leboncoin.fr/campings/820704471.htm?ca=12_k","title":"Cherche mobile home 10 personnes","category":"Campings","region":"Vend\u00e9e","town":"Les Sables-d''Olonne","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:52"},{"ref":"820704460","url":"http://www.leboncoin.fr/offres_d_emploi/820704460.htm?ca=12_k","title":"Contrat en alternance","category":"Offres d''emploi","region":"Aube","town":"Bar-sur-Seine","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:52"},{"ref":"820704427","url":"http://www.leboncoin.fr/offres_d_emploi/820704427.htm?ca=12_k","title":"Contrat en alternance","category":"Offres d''emploi","region":"Aube","town":"Bar-sur-Aube","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:52"},{"ref":"820704344","url":"http://www.leboncoin.fr/voitures/820704344.htm?ca=12_k","title":"Simca 1000,1005,1006(recherche)","category":"Voitures","region":"Calvados","town":"Falaise","price":"1","image":"http://img4.leboncoin.fr/thumbs/ea0/ea0f4687327d9d351aac57611c664ad96a991b97.jpg","nb_images":"1","date":"Aujourd''hui 20:52"},{"ref":"820704318","url":"http://www.leboncoin.fr/image_son/820704318.htm?ca=12_k","title":"Nikon af&#45;s 35&#45;70 f/2.8","category":"Image &amp; Son","region":"Seine-et-Marne","town":"Villeparisis","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:52"},{"ref":"820704317","url":"http://www.leboncoin.fr/offres_d_emploi/820704317.htm?ca=12_k","title":"Hommes de toutes mains en menuiserie","category":"Offres d''emploi","region":"Sarthe","town":"all","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:52"},{"ref":"820704314","url":"http://www.leboncoin.fr/offres_d_emploi/820704314.htm?ca=12_k","title":"Contrat en alternance","category":"Offres d''emploi","region":"Haute-Marne","town":"Chaumont","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:52"},{"ref":"820704218","url":"http://www.leboncoin.fr/offres_d_emploi/820704218.htm?ca=12_k","title":"Cherche pizzaiolo pro ou debutant","category":"Offres d''emploi","region":"Dr\u00f4me","town":"Pont-de-l''Is\u00e8re","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:52"},{"ref":"820704095","url":"http://www.leboncoin.fr/colocations/820704095.htm?ca=12_k","title":"Cherche colocation urgent","category":"Colocations","region":"H\u00e9rault","town":"S\u00e8te","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:51"},{"ref":"820704045","url":"http://www.leboncoin.fr/animaux/820704045.htm?ca=12_k","title":"Chatons type europeens","category":"Animaux","region":"Aube","town":"La Chapelle-Saint-Luc","price":"30","image":"http://img3.leboncoin.fr/thumbs/6cc/6ccc1060fcd7c09a49bf4142b8496b1ad9ad6499.jpg","nb_images":"2","date":"Aujourd''hui 20:51"},{"ref":"820703943","url":"http://www.leboncoin.fr/offres_d_emploi/820703943.htm?ca=12_k","title":"Recherche contrat de professionnalisation BTS SIO","category":"Offres d''emploi","region":"Pyr\u00e9n\u00e9es-Atlantiques","town":"Biarritz","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:51"},{"ref":"820703913","url":"http://www.leboncoin.fr/animaux/820703913.htm?ca=12_k","title":"Recherche chien","category":"Animaux","region":"Somme","town":"Ham","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:50"},{"ref":"820703867","url":"http://www.leboncoin.fr/ventes_immobilieres/820703867.htm?ca=12_k","title":"Cherche maison","category":"Ventes immobili&egrave;res","region":"Corr\u00e8ze","town":"Malemort-sur-Corr\u00e8ze","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:50"},{"ref":"820703866","url":"http://www.leboncoin.fr/prestations_de_services/820703866.htm?ca=12_k","title":"Cherche mod&egrave;le &eacute;pilation sourcils","category":"Prestations de services","region":"H\u00e9rault","town":"S\u00e8te","price":null,"image":"http://img6.leboncoin.fr/thumbs/799/799841454c0d332967a866bedc0e101b67b2e2ba.jpg","nb_images":"1","date":"Aujourd''hui 20:50"},{"ref":"820703791","url":"http://www.leboncoin.fr/jardinage/820703791.htm?ca=12_k","title":"Embrayage tracteur tondeuse","category":"Jardinage","region":"Orne","town":"Alen\u00e7on","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:50"},{"ref":"820703789","url":"http://www.leboncoin.fr/telephonie/820703789.htm?ca=12_k","title":"Recherche smartphone Galaxy S Advance HS","category":"T&eacute;l&eacute;phonie","region":"Somme","town":"P\u00e9ronne","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:50"},{"ref":"809189615","url":"http://www.leboncoin.fr/offres_d_emploi/809189615.htm?ca=12_k","title":"Cuisinier/cuisiniere","category":"Offres d''emploi","region":"Pyr\u00e9n\u00e9es-Atlantiques","town":"Anglet","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 20:50"}]}');
+INSERT INTO cache VALUES (38, '2015-06-18 21:47:43', 'http://www.leboncoin.fr/annonces/820708735.htm', '{"ref":"820708735","ads":"offers","type":"ind","user":"mg","region":"Creuse","town":"Saint-Amand","postal":"23200","category":"Jeux & Jouets","title":"Tracteur porteur","price":"30","description":"             vend trateur porteur pour enfant avec remorque \u00e9tat neuf peu servi         ","date":"18 juin 21:29","image":"http://img2.leboncoin.fr/images/e23/e235f390cd038d91bdd6301db0ca3161dbd35bbb.jpg","nb_images":1,"thumbs":[]}');
+INSERT INTO cache VALUES (39, '2015-06-18 21:47:49', 'http://www.leboncoin.fr/annonces/820717941.htm', '{"ref":"820717941","ads":"offers","type":"ind","user":"chauveau","region":"Paris","town":"Paris","postal":"75013","category":"Ameublement","title":"Chaise finlandaise vintage tapiovaara ann\u00e9es 50","price":"100","description":"             Chaise en bois noirci et teck finlandaise du d\u00e9signer tapiovaara vintage des ann\u00e9es 50 . Tr\u00e8s bon \u00e9tat g\u00e9n\u00e9ral , pas de casse , pas de jeux dans le pi\u00e8tement , quelques petites rayures d usage qui font parti de sa patine . Tr\u00e8s belle assise plaqu\u00e9e teck . Trace d estampille triangulaire a l encre sous l assise . Remise en main propre possible sur Paris ou envoi en colissimo en supp ( + 20 Euro(s) ) . Id\u00e9al pour deco Jacobsen , vintage scandinave , fritz hansen , eero aarnio , eames , Herman Miller , Guariche , Perriand , knoll , Mategot , prouve , pierre Paulin , motte , mourgue ....          ","date":"18 juin 21:29","image":"http://img0.leboncoin.fr/images/693/693e3b6091a6533fe1e77c0c5e37034aed647d3e.jpg","nb_images":3,"thumbs":["http://img0.leboncoin.fr/thumbs/693/693e3b6091a6533fe1e77c0c5e37034aed647d3e.jpg","http://img7.leboncoin.fr/thumbs/f29/f2934b41390769b406d63d3bc4af09604a68fc4b.jpg","http://img0.leboncoin.fr/thumbs/9e6/9e6d24b34c3bc5a18180c7e309329f3e057ce7b8.jpg"]}');
+INSERT INTO cache VALUES (41, '2015-06-18 22:03:59', 'http://www.leboncoin.fr/annonces/offres/alsace/?&f=a', '{"page":"1","current":"1-35","total":"701325","individual":"637631","professional":"63694","ads":"offers","type":"all","region":"alsace","town":null,"category":"annonces","sort":"date","query":null,"articles":[{"ref":"549281054","url":"http://www.leboncoin.fr/chaussures/549281054.htm?ca=1_s","title":"Savate Bellamy Fille P26 (dani68)","category":"Chaussures","region":"Haut-Rhin","town":"Koestlach","price":"5","image":"http://img5.leboncoin.fr/thumbs/05d/05debe78a72474d829f1ab9f187a0de277ff9b13.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"820727354","url":"http://www.leboncoin.fr/voitures/820727354.htm?ca=1_s","title":"Bmw 325i e30","category":"Voitures","region":"Bas-Rhin","town":"all","price":"2000","image":"http://img1.leboncoin.fr/thumbs/aad/aad7b113c5046debc931edcc539e86a4513ce456.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"820727342","url":"http://www.leboncoin.fr/ameublement/820727342.htm?ca=1_s","title":"CANAPE&#45;CONVERTIBLE 3 places","category":"Ameublement","region":"Bas-Rhin","town":"Lingolsheim","price":"55","image":"http://img3.leboncoin.fr/thumbs/303/303b3078b0572c27f60fd864da70353cfdd91d45.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"820727328","url":"http://www.leboncoin.fr/jardinage/820727328.htm?ca=1_s","title":"Bois de chauffage","category":"Jardinage","region":"Bas-Rhin","town":"Wisches","price":null,"image":null,"nb_images":0,"date":"Aujourd''hui 21:51"},{"ref":"586275904","url":"http://www.leboncoin.fr/jeux_jouets/586275904.htm?ca=1_s","title":"Poney My Little Poney (dani68)","category":"Jeux &amp; Jouets","region":"Haut-Rhin","town":"Koestlach","price":"6","image":"http://img7.leboncoin.fr/thumbs/50f/50f4300b15ffdbeec964e631de618c560828134f.jpg","nb_images":"2","date":"Aujourd''hui 21:51"},{"ref":"820727276","url":"http://www.leboncoin.fr/velos/820727276.htm?ca=1_s","title":"Porte bagage B''twin elops 3 ","category":"V&eacute;los","region":"Bas-Rhin","town":"Strasbourg","price":"20","image":"http://img3.leboncoin.fr/thumbs/390/3909347e83904c0196d58fcb7dd82173994d2144.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"820727254","url":"http://www.leboncoin.fr/equipement_bebe/820727254.htm?ca=1_s","title":"Baignoire et support","category":"Equipement b&eacute;b&eacute;","region":"Bas-Rhin","town":"Benfeld","price":"10","image":"http://img1.leboncoin.fr/thumbs/0f1/0f1a0386359d36da8b6a7643e226ffa2d61277e3.jpg","nb_images":"3","date":"Aujourd''hui 21:50"},{"ref":"820727248","url":"http://www.leboncoin.fr/jardinage/820727248.htm?ca=1_s","title":"Table basse en bois double plateau","category":"Jardinage","region":"Bas-Rhin","town":"Haguenau","price":"50","image":"http://img1.leboncoin.fr/thumbs/0ef/0efc7c5a382be4737839ac3460418bd519eb7602.jpg","nb_images":"3","date":"Aujourd''hui 21:50"},{"ref":"820727231","url":"http://www.leboncoin.fr/consoles_jeux_video/820727231.htm?ca=1_s","title":"Plaque Militaire Ou Dog Tag Battlefield 4","category":"Consoles &amp; Jeux vid&eacute;o","region":"Bas-Rhin","town":"Strasbourg","price":"10","image":"http://img5.leboncoin.fr/thumbs/30d/30d4815afa89ea9c8d46617c5b34bd2f33a9e748.jpg","nb_images":"1","date":"Aujourd''hui 21:50"},{"ref":"548938975","url":"http://www.leboncoin.fr/equipement_auto/548938975.htm?ca=1_s","title":"Rotules de direction&quot;NEUF&quot;clio,express(nissan68)","category":"Equipement Auto","region":"Haut-Rhin","town":"Ferrette","price":null,"image":"http://img6.leboncoin.fr/thumbs/73c/73cf340b542d4b3cd2bd84d90c0dd653beca214f.jpg","nb_images":"2","date":"Aujourd''hui 21:50"},{"ref":"820727164","url":"http://www.leboncoin.fr/ameublement/820727164.htm?ca=1_s","title":"Machine &agrave; caf&eacute; TASSIMO","category":"Ameublement","region":"Haut-Rhin","town":"Colmar","price":"10","image":"http://img0.leboncoin.fr/thumbs/b1b/b1b6f63738ba7716b5e6ed67524ecfb133fd8452.jpg","nb_images":"2","date":"Aujourd''hui 21:50"},{"ref":"747183212","url":"http://www.leboncoin.fr/jeux_jouets/747183212.htm?ca=1_s","title":"Petites Perles (dani68)","category":"Jeux &amp; Jouets","region":"Haut-Rhin","town":"Koestlach","price":"3","image":"http://img6.leboncoin.fr/thumbs/988/9883c6beb04fb02e9464e8a8ba27c64f3268d17e.jpg","nb_images":"3","date":"Aujourd''hui 21:50"},{"ref":"820727078","url":"http://www.leboncoin.fr/animaux/820727078.htm?ca=1_s","title":"Lapin fermier","category":"Animaux","region":"Bas-Rhin","town":"all","price":null,"image":"http://img5.leboncoin.fr/thumbs/9f3/9f39036ccff54870c4866926db3756d67be152a8.jpg","nb_images":"2","date":"Aujourd''hui 21:50"},{"ref":"785456156","url":"http://www.leboncoin.fr/voitures/785456156.htm?ca=1_s","title":"Opel olympia 1936","category":"Voitures                                                                                                                   (pro)","region":"Bas-Rhin","town":"Vill\u00e9","price":"1800","image":"http://img0.leboncoin.fr/thumbs/b14/b1450b44eb9f42d2cc4eee88bdcf0a19594509bc.jpg","nb_images":"2","date":"Aujourd''hui 21:50"},{"ref":"820727040","url":"http://www.leboncoin.fr/consoles_jeux_video/820727040.htm?ca=1_s","title":"Nintendo &#45; Dragon: The Bruce Lee Story","category":"Consoles &amp; Jeux vid&eacute;o","region":"Bas-Rhin","town":"Obernai","price":null,"image":"http://img2.leboncoin.fr/thumbs/629/6298ad42c59bd1f18f1fe5d1fd4034d7f2af8daf.jpg","nb_images":"2","date":"Aujourd''hui 21:50"},{"ref":"812910051","url":"http://www.leboncoin.fr/ventes_immobilieres/812910051.htm?ca=1_s","title":"Maison d''architecte 4 pi&egrave;ces","category":"Ventes immobili&egrave;res","region":"Bas-Rhin","town":"Krautwiller","price":"332000","image":"http://img4.leboncoin.fr/thumbs/11d/11ddb948ca78ac242bdd4996c11bffdc91506775.jpg","nb_images":"3","date":"Aujourd''hui 21:50"},{"ref":"820726940","url":"http://www.leboncoin.fr/vetements_bebe/820726940.htm?ca=1_s","title":"Basket puma authentique pointure 21","category":"V&ecirc;tements b&eacute;b&eacute;","region":"Bas-Rhin","town":"Holtzheim","price":"2","image":"http://img7.leboncoin.fr/thumbs/b7e/b7ec30a8eaa624341c8c5c77b8b1970ede5f2ee4.jpg","nb_images":"2","date":"Aujourd''hui 21:50"},{"ref":"820726901","url":"http://www.leboncoin.fr/sports_hobbies/820726901.htm?ca=1_s","title":"Tente quetcha 4places","category":"Sports &amp; Hobbies","region":"Bas-Rhin","town":"all","price":"70","image":"http://img1.leboncoin.fr/thumbs/ff4/ff49cf0d14f21de38e15182595a5d85a52a2b19d.jpg","nb_images":"3","date":"Aujourd''hui 21:50"},{"ref":"820726872","url":"http://www.leboncoin.fr/motos/820726872.htm?ca=1_s","title":"Bws ann&eacute;e 2011","category":"Motos","region":"Haut-Rhin","town":"Stetten","price":"200","image":"http://img4.leboncoin.fr/thumbs/bb6/bb616ac0b9e8ef1c5e2f82aef54c98406bb20374.jpg","nb_images":"3","date":"Aujourd''hui 21:50"},{"ref":"820726867","url":"http://www.leboncoin.fr/bricolage/820726867.htm?ca=1_s","title":"Radiateur &eacute;lectrique &agrave; bain d''huile bon &eacute;tat","category":"Bricolage","region":"Haut-Rhin","town":"Blotzheim","price":"30","image":"http://img7.leboncoin.fr/thumbs/ca3/ca3c1ee713515805d3a067af1a0e2cc12b190daf.jpg","nb_images":"2","date":"Aujourd''hui 21:50"},{"ref":"820726821","url":"http://www.leboncoin.fr/ventes_immobilieres/820726821.htm?ca=1_s","title":"Appartement 2 pi&egrave;ces","category":"Ventes immobili&egrave;res","region":"Bas-Rhin","town":"Strasbourg","price":"123000","image":"http://img0.leboncoin.fr/thumbs/2a1/2a1049924ea8312063b6269896ab66b8121cd361.jpg","nb_images":"3","date":"Aujourd''hui 21:50"},{"ref":"820726806","url":"http://www.leboncoin.fr/ameublement/820726806.htm?ca=1_s","title":"Lit ancien + sommier + matelas","category":"Ameublement","region":"Haut-Rhin","town":"Mulhouse","price":"35","image":"http://img1.leboncoin.fr/thumbs/917/91746660f6241d407f5ea05a6c61aeedee67f9db.jpg","nb_images":"2","date":"Aujourd''hui 21:50"},{"ref":"795268040","url":"http://www.leboncoin.fr/equipement_bebe/795268040.htm?ca=1_s","title":"Chaise Haute en Bois &quot; COMBELLE &quot; / Niqui","category":"Equipement b&eacute;b&eacute;","region":"Haut-Rhin","town":"Horbourg-Wihr","price":"45","image":"http://img7.leboncoin.fr/thumbs/450/450dc056d418e051f59fe7afc790b4c93b5c0dbc.jpg","nb_images":"2","date":"Aujourd''hui 21:49"},{"ref":"820726651","url":"http://www.leboncoin.fr/ameublement/820726651.htm?ca=1_s","title":"BUFFET merisier","category":"Ameublement","region":"Haut-Rhin","town":"Holtzwihr","price":"400","image":"http://img7.leboncoin.fr/thumbs/612/612078dbf9ec5ae922c1ff7a6ab5185148da5400.jpg","nb_images":"1","date":"Aujourd''hui 21:49"},{"ref":"820726648","url":"http://www.leboncoin.fr/commerces_marches/820726648.htm?ca=1_s","title":"Trancheuse &agrave; jambon de marque BERKEL","category":"Commerces &amp; March&eacute;s","region":"Bas-Rhin","town":"Geispolsheim","price":"270","image":"http://img7.leboncoin.fr/thumbs/988/9880aef384bbb1d14662852f6c183ac616a13503.jpg","nb_images":"3","date":"Aujourd''hui 21:49"},{"ref":"820726638","url":"http://www.leboncoin.fr/consoles_jeux_video/820726638.htm?ca=1_s","title":"Jeux super nintendo ( snes / nitendo )","category":"Consoles &amp; Jeux vid&eacute;o","region":"Bas-Rhin","town":"Strasbourg","price":null,"image":"http://img6.leboncoin.fr/thumbs/fd2/fd24b3892bff1fad8624725fe8a6da51ce59cf62.jpg","nb_images":"1","date":"Aujourd''hui 21:49"},{"ref":"820726623","url":"http://www.leboncoin.fr/velos/820726623.htm?ca=1_s","title":"V&eacute;lo VTT Enfant 20 Pouces / Niqui","category":"V&eacute;los","region":"Haut-Rhin","town":"Horbourg-Wihr","price":"55","image":"http://img6.leboncoin.fr/thumbs/35e/35e083ad3b385e82d86cbbd3c86cf28de174f433.jpg","nb_images":"3","date":"Aujourd''hui 21:49"},{"ref":"820726532","url":"http://www.leboncoin.fr/voitures/820726532.htm?ca=1_s","title":"Golf 3","category":"Voitures","region":"Bas-Rhin","town":"Wasselonne","price":"1300","image":"http://img7.leboncoin.fr/thumbs/72c/72c951f61cc76cad1931da47863cd1ef182b5336.jpg","nb_images":"3","date":"Aujourd''hui 21:49"},{"ref":"820726528","url":"http://www.leboncoin.fr/jeux_jouets/820726528.htm?ca=1_s","title":"Roller T 28","category":"Jeux &amp; Jouets","region":"Bas-Rhin","town":"Dorlisheim","price":null,"image":"http://img0.leboncoin.fr/thumbs/4c0/4c02e0f1c386a8777213e3fd6b83198fe57f7bcb.jpg","nb_images":"1","date":"Aujourd''hui 21:49"},{"ref":"809212633","url":"http://www.leboncoin.fr/locations_gites/809212633.htm?ca=1_s","title":"G&icirc;te de la Petite Suisse d''Alsace","category":"Locations &amp; G&icirc;tes","region":"Bas-Rhin","town":"Birkenwald","price":"195295","image":"http://img7.leboncoin.fr/thumbs/2a8/2a8e3165b8c53710868a0caae67c945f35b0a8fd.jpg","nb_images":"10","date":"Aujourd''hui 21:49"},{"ref":"820726389","url":"http://www.leboncoin.fr/ameublement/820726389.htm?ca=1_s","title":"Commode","category":"Ameublement","region":"Bas-Rhin","town":"Oberhausbergen","price":"170","image":"http://img4.leboncoin.fr/thumbs/953/95380e7ce93f11ad15de997316a4d8063b9896a6.jpg","nb_images":"2","date":"Aujourd''hui 21:49"},{"ref":"820726385","url":"http://www.leboncoin.fr/decoration/820726385.htm?ca=1_s","title":"Porte Cd bon &eacute;tat","category":"D&eacute;coration","region":"Haut-Rhin","town":"Blotzheim","price":"8","image":"http://img6.leboncoin.fr/thumbs/812/812ffd49bce03363103c33c3b1ba340c09f2c69e.jpg","nb_images":"1","date":"Aujourd''hui 21:49"},{"ref":"820726337","url":"http://www.leboncoin.fr/ameublement/820726337.htm?ca=1_s","title":"Buffet en bois","category":"Ameublement","region":"Bas-Rhin","town":"Schiltigheim","price":"30","image":"http://img2.leboncoin.fr/thumbs/ab5/ab5b1d8ca11009823618b5c49ec331fcb98fb0b3.jpg","nb_images":"1","date":"Aujourd''hui 21:49"},{"ref":"820726264","url":"http://www.leboncoin.fr/ameublement/820726264.htm?ca=1_s","title":"Chambre Enfant","category":"Ameublement","region":"Haut-Rhin","town":"all","price":"30","image":"http://img3.leboncoin.fr/thumbs/a85/a8531723964e2deda6f8fca4f32ca48ce43a2eb1.jpg","nb_images":"3","date":"Aujourd''hui 21:49"},{"ref":"820726248","url":"http://www.leboncoin.fr/jardinage/820726248.htm?ca=1_s","title":"Chaises longues","category":"Jardinage","region":"Bas-Rhin","town":"S\u00e9lestat","price":"70","image":"http://img4.leboncoin.fr/thumbs/a98/a98dfd7f8c62bbb0f0a5529d495c7df580d8760e.jpg","nb_images":"3","date":"Aujourd''hui 21:48"}]}');
+INSERT INTO cache VALUES (42, '2015-06-18 22:07:47', 'http://www.leboncoin.fr/annonces/offres/?&f=a', '{"page":"1","current":"1-35","total":"25376718","individual":"23219798","professional":"2156920","ads":"offers","type":"all","region":"All","town":null,"category":"annonces","sort":"date","query":null,"articles":[{"ref":"769824511","url":"http://www.leboncoin.fr/chaussures/769824511.htm?ca=12_s","title":"Escarpins CUIR","category":"Chaussures","region":"Doubs","town":"Mouthe","price":"10","image":"http://img1.leboncoin.fr/thumbs/bc3/bc37b0bf9621dbc967eabb4a71e1117e096bc894.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"820727419","url":"http://www.leboncoin.fr/commerces_marches/820727419.htm?ca=12_s","title":"Balance Testut","category":"Commerces &amp; March&eacute;s","region":"Pas-de-Calais","town":"Gosnay","price":"500","image":"http://img5.leboncoin.fr/thumbs/77a/77a879bc23ec4742dd4e6b8da10143a4c43ce5ea.jpg","nb_images":"2","date":"Aujourd''hui 21:51"},{"ref":"820727418","url":"http://www.leboncoin.fr/livres/820727418.htm?ca=12_s","title":"Encyclop&eacute;die &quot; COUSTEAU &quot; Le Monde des Oc&eacute;ans","category":"Livres","region":"Finist\u00e8re","town":"Plou\u00e9nan","price":"80","image":"http://img2.leboncoin.fr/thumbs/659/659bb589b77c1bb5542a08e634d4e484b3205ba8.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"820727417","url":"http://www.leboncoin.fr/chaussures/820727417.htm?ca=12_s","title":"Bottes en caoutchouc","category":"Chaussures","region":"Orne","town":"Le Theil","price":"3","image":"http://img4.leboncoin.fr/thumbs/ae6/ae6cf2caacba7013f4138043d013187895010f23.jpg","nb_images":"1","date":"Aujourd''hui 21:51"},{"ref":"820727414","url":"http://www.leboncoin.fr/jeux_jouets/820727414.htm?ca=12_s","title":"Maison de poup&eacute;e pliable","category":"Jeux &amp; Jouets","region":"Paris 17&egrave;me","town":"all","price":"20","image":"http://img3.leboncoin.fr/thumbs/ace/ace4800c57696054934f4aa9cd0e1105ea399791.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"820727413","url":"http://www.leboncoin.fr/locations_gites/820727413.htm?ca=12_s","title":"T2 55m2 sur le PORT","category":"Locations &amp; G&icirc;tes","region":"Bouches-du-Rh\u00f4ne","town":"La Ciotat","price":"300550","image":"http://img2.leboncoin.fr/thumbs/bb4/bb4ea68af01a981a0666e882ff2c9c181e694c55.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"820727412","url":"http://www.leboncoin.fr/btp_chantier_gros_oeuvre/820727412.htm?ca=12_s","title":"Compteur de chantier monophaser/ triphasee","category":"BTP &#45; Chantier Gros&#45;oeuvre","region":"Bouches-du-Rh\u00f4ne","town":"Rognac","price":"250","image":null,"nb_images":0,"date":"Aujourd''hui 21:51"},{"ref":"820727411","url":"http://www.leboncoin.fr/image_son/820727411.htm?ca=12_s","title":"Home cinema Sony BDV&#45;l600","category":"Image &amp; Son","region":"Loire-Atlantique","town":"La Chapelle-Basse-Mer","price":"180","image":"http://img5.leboncoin.fr/thumbs/595/59586841debdf633c3f0dcba65fbffefcad824ea.jpg","nb_images":"1","date":"Aujourd''hui 21:51"},{"ref":"63750946","url":"http://www.leboncoin.fr/livres/63750946.htm?ca=12_s","title":"Paris match &#45; mitterrand","category":"Livres","region":"Seine-et-Marne","town":"Meaux","price":null,"image":"http://img7.leboncoin.fr/thumbs/861/86156e69a1fab5ded7ce9cf6349333c918df15ac.jpg","nb_images":"1","date":"Aujourd''hui 21:51"},{"ref":"820727409","url":"http://www.leboncoin.fr/locations/820727409.htm?ca=12_s","title":"Studio 27m2 pont audemer","category":"Locations","region":"Eure","town":"Pont-Audemer","price":"350","image":"http://img7.leboncoin.fr/thumbs/509/50951457527282b8a302a3171ecea10fe7cc4d1c.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"820727408","url":"http://www.leboncoin.fr/consoles_jeux_video/820727408.htm?ca=12_s","title":"Pack console wii u party + jeux + 3 wiimotes","category":"Consoles &amp; Jeux vid&eacute;o","region":"Haute-Sa\u00f4ne","town":"H\u00e9ricourt","price":"190","image":"http://img2.leboncoin.fr/thumbs/79e/79e8fd6be8ac9dc1fb3d4fa154954236c86bdc53.jpg","nb_images":"1","date":"Aujourd''hui 21:51"},{"ref":"820727404","url":"http://www.leboncoin.fr/image_son/820727404.htm?ca=12_s","title":"Canon EOS 6D full frame + 40mm f2,8 STM","category":"Image &amp; Son","region":"Ille-et-Vilaine","town":"Rennes","price":"1400","image":"http://img4.leboncoin.fr/thumbs/813/8136d8ec8b93c07e1c8dac1f86ebab4350e5f83c.jpg","nb_images":"1","date":"Aujourd''hui 21:51"},{"ref":"769839882","url":"http://www.leboncoin.fr/arts_de_la_table/769839882.htm?ca=12_s","title":"Carafe ancienne en cristal","category":"Arts de la table","region":"Rh\u00f4ne","town":"Lyon 2&egrave;me","price":"12","image":"http://img3.leboncoin.fr/thumbs/439/43954ff0811ee4f6950b04b842736b82d283d5da.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"768295901","url":"http://www.leboncoin.fr/livres/768295901.htm?ca=12_s","title":"Garage Isidore 2. J''ai un bruit","category":"Livres","region":"Aude","town":"all","price":"4","image":"http://img7.leboncoin.fr/thumbs/5fb/5fba9983768325eceaef0803594d8ad1d31411c3.jpg","nb_images":"1","date":"Aujourd''hui 21:51"},{"ref":"696275095","url":"http://www.leboncoin.fr/dvd_films/696275095.htm?ca=12_s","title":"Coffret 4 DVD Grand galop, int&eacute;grale saison 2","category":"DVD / Films","region":"Dr\u00f4me","town":"Pierrelatte","price":"10","image":"http://img5.leboncoin.fr/thumbs/c48/c4889a996381771fbaaa81c7245f798d6a748857.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"550152257","url":"http://www.leboncoin.fr/chaussures/550152257.htm?ca=12_s","title":"Chaussures premiers pas en cuir en TBE P.18","category":"Chaussures","region":"Somme","town":"Saint-Gratien","price":"10","image":"http://img2.leboncoin.fr/thumbs/448/44821de8a1f658144df19a624903610c53f18977.jpg","nb_images":"2","date":"Aujourd''hui 21:51"},{"ref":"820727403","url":"http://www.leboncoin.fr/locations/820727403.htm?ca=12_s","title":"Appartement T3 et garage","category":"Locations","region":"Haute-Loire","town":"Saint-Ferr\u00e9ol-d''Auroure","price":"558","image":"http://img5.leboncoin.fr/thumbs/38c/38c40f468ac477c91bbf9f24d8e654ae631f22db.jpg","nb_images":"2","date":"Aujourd''hui 21:51"},{"ref":"820727402","url":"http://www.leboncoin.fr/consoles_jeux_video/820727402.htm?ca=12_s","title":"Console ps4 Sony","category":"Consoles &amp; Jeux vid&eacute;o","region":"Nord","town":"Roubaix","price":"330","image":"http://img6.leboncoin.fr/thumbs/223/223bf447b504fbdb93f6567808fe46f2f1faacff.jpg","nb_images":"1","date":"Aujourd''hui 21:51"},{"ref":"820727400","url":"http://www.leboncoin.fr/livres/820727400.htm?ca=12_s","title":"Chamb&eacute;ry &agrave; travers ses rues: s/ verg&eacute; chiffon NEUF","category":"Livres","region":"Savoie","town":"Montm\u00e9lian","price":"20","image":"http://img1.leboncoin.fr/thumbs/e60/e60b45bb528d1f996866d119c09749ffd3b1eb01.jpg","nb_images":"1","date":"Aujourd''hui 21:51"},{"ref":"820727399","url":"http://www.leboncoin.fr/locations/820727399.htm?ca=12_s","title":"Location F1 30m&sup2; hyper centre ville Caen","category":"Locations","region":"Calvados","town":"Caen","price":"465","image":"http://img5.leboncoin.fr/thumbs/8de/8de9671b198ad7772be4d8723e52695440d5684a.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"820727398","url":"http://www.leboncoin.fr/arts_de_la_table/820727398.htm?ca=12_s","title":"Soupi&egrave;re isotherme tupperware","category":"Arts de la table","region":"Maine-et-Loire","town":"Cand\u00e9","price":"20","image":"http://img3.leboncoin.fr/thumbs/c39/c39f3cd0f5195cc6801fac3c29e0c274fdf8e358.jpg","nb_images":"1","date":"Aujourd''hui 21:51"},{"ref":"809213578","url":"http://www.leboncoin.fr/locations_gites/809213578.htm?ca=12_s","title":"Location studio meubl&eacute; pour curiste","category":"Locations &amp; G&icirc;tes","region":"Charente-Maritime","town":"Rochefort","price":"215","image":"http://img0.leboncoin.fr/thumbs/cfd/cfd2a64dd47fe28f4cffe08106f4018eeba79ee5.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"795162011","url":"http://www.leboncoin.fr/chaussures/795162011.htm?ca=12_s","title":"Supergas taille 24","category":"Chaussures","region":"Hauts-de-Seine","town":"Issy-les-Moulineaux","price":"8","image":"http://img5.leboncoin.fr/thumbs/5fe/5feac7a3ff1d09fc9f8bc113032f113d149b3da3.jpg","nb_images":"2","date":"Aujourd''hui 21:51"},{"ref":"719920210","url":"http://www.leboncoin.fr/ameublement/719920210.htm?ca=12_s","title":"Erico45 deux Gu&eacute;ridon etc faire un prix","category":"Ameublement","region":"Loiret","town":"Saran","price":null,"image":"http://img2.leboncoin.fr/thumbs/a9e/a9e7441972d51d501c824a3021f9317ab6177295.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"463063504","url":"http://www.leboncoin.fr/montres_bijoux/463063504.htm?ca=12_s","title":"Collier fleur brillant en argent NEUF","category":"Montres &amp; Bijoux","region":"Haute-Sa\u00f4ne","town":"Frotey-l\u00e8s-Vesoul","price":"100","image":"http://img1.leboncoin.fr/thumbs/bdf/bdf061f2ff4f0b0dd7378ea8b8e2299193acd31b.jpg","nb_images":"2","date":"Aujourd''hui 21:51"},{"ref":"820727395","url":"http://www.leboncoin.fr/voitures/820727395.htm?ca=12_s","title":"Peugeot 308 II 1.6 E&#45;HDI 115 FAP ALLURE GPS","category":"Voitures","region":"Mayenne","town":"all","price":"18900","image":"http://img6.leboncoin.fr/thumbs/7b7/7b761fafc96118b767e90c1a9dac89db79b32d45.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"796707246","url":"http://www.leboncoin.fr/voitures/796707246.htm?ca=12_s","title":"BMW 318 I garantie 3MOIS","category":"Voitures                                                                                                                   (pro)","region":"Seine-Maritime","town":"Rouen","price":"2990","image":"http://img1.leboncoin.fr/thumbs/025/0253a9b9652ec3ed122b418e43d2947d6ec0fe24.jpg","nb_images":"5","date":"Aujourd''hui 21:51"},{"ref":"795056428","url":"http://www.leboncoin.fr/voitures/795056428.htm?ca=12_s","title":"Range rover HSE sport","category":"Voitures","region":"Essonne","town":"Evry","price":"14500","image":"http://img6.leboncoin.fr/thumbs/e64/e646a05c3449550a2a4e264340122c2fff36026f.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"795028000","url":"http://www.leboncoin.fr/equipement_auto/795028000.htm?ca=12_s","title":"Boite de vitesse sharan 1L8 turbo","category":"Equipement Auto","region":"Haute-Savoie","town":"Lathuile","price":"180","image":null,"nb_images":0,"date":"Aujourd''hui 21:51"},{"ref":"820727393","url":"http://www.leboncoin.fr/animaux/820727393.htm?ca=12_s","title":"Hamsters","category":"Animaux","region":"Seine-et-Marne","town":"Cr\u00e9cy-la-Chapelle","price":"8","image":"http://img0.leboncoin.fr/thumbs/3b1/3b108c6d4e80f28623c970c5f6ba151397d67527.jpg","nb_images":"2","date":"Aujourd''hui 21:51"},{"ref":"820727392","url":"http://www.leboncoin.fr/materiel_agricole/820727392.htm?ca=12_s","title":"Tracteur case inter 1056 axl","category":"Mat&eacute;riel Agricole","region":"Lot-et-Garonne","town":"Allemans-du-Dropt","price":"11500","image":null,"nb_images":0,"date":"Aujourd''hui 21:51"},{"ref":"820727391","url":"http://www.leboncoin.fr/decoration/820727391.htm?ca=12_s","title":"Beurrier ancien","category":"D&eacute;coration","region":"Seine-et-Marne","town":"Chaintreaux","price":"3","image":"http://img4.leboncoin.fr/thumbs/1d2/1d2ddffaf7ea793e40c0d538afb4f5293f343cc7.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"820727390","url":"http://www.leboncoin.fr/vetements/820727390.htm?ca=12_s","title":"Pantalon Vynil Fraise 4 ans lilie41","category":"V&ecirc;tements","region":"Loir-et-Cher","town":"Pruniers-en-Sologne","price":"1","image":"http://img3.leboncoin.fr/thumbs/ed1/ed1de2cfa3d2c255f311606979281d86d2729026.jpg","nb_images":"2","date":"Aujourd''hui 21:51"},{"ref":"794717420","url":"http://www.leboncoin.fr/outillage_materiaux_2nd_oeuvre/794717420.htm?ca=12_s","title":"L&egrave;ve plaque","category":"Outillage &#45; Mat&eacute;riaux 2nd&#45;oeuvre","region":"Seine-Saint-Denis","town":"Rosny-sous-Bois","price":"150","image":"http://img1.leboncoin.fr/thumbs/014/014a0b134c1c9598893eb394694bd1995e46d21d.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"549281054","url":"http://www.leboncoin.fr/chaussures/549281054.htm?ca=12_s","title":"Savate Bellamy Fille P26 (dani68)","category":"Chaussures","region":"Haut-Rhin","town":"Koestlach","price":"5","image":"http://img5.leboncoin.fr/thumbs/05d/05debe78a72474d829f1ab9f187a0de277ff9b13.jpg","nb_images":"3","date":"Aujourd''hui 21:51"}]}');
+INSERT INTO cache VALUES (43, '2015-06-18 22:09:59', 'http://www.leboncoin.fr/annonces/offres/ile_de_france/?&f=a', '{"page":"1","current":"1-35","total":"4086405","individual":"3830222","professional":"256183","ads":"offers","type":"all","region":"ile_de_france","town":null,"category":"annonces","sort":"date","query":null,"articles":[{"ref":"820727414","url":"http://www.leboncoin.fr/jeux_jouets/820727414.htm?ca=12_s","title":"Maison de poup&eacute;e pliable","category":"Jeux &amp; Jouets","region":"Paris 17&egrave;me","town":"all","price":"20","image":"http://img3.leboncoin.fr/thumbs/ace/ace4800c57696054934f4aa9cd0e1105ea399791.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"63750946","url":"http://www.leboncoin.fr/livres/63750946.htm?ca=12_s","title":"Paris match &#45; mitterrand","category":"Livres","region":"Seine-et-Marne","town":"Meaux","price":null,"image":"http://img7.leboncoin.fr/thumbs/861/86156e69a1fab5ded7ce9cf6349333c918df15ac.jpg","nb_images":"1","date":"Aujourd''hui 21:51"},{"ref":"795162011","url":"http://www.leboncoin.fr/chaussures/795162011.htm?ca=12_s","title":"Supergas taille 24","category":"Chaussures","region":"Hauts-de-Seine","town":"Issy-les-Moulineaux","price":"8","image":"http://img5.leboncoin.fr/thumbs/5fe/5feac7a3ff1d09fc9f8bc113032f113d149b3da3.jpg","nb_images":"2","date":"Aujourd''hui 21:51"},{"ref":"795056428","url":"http://www.leboncoin.fr/voitures/795056428.htm?ca=12_s","title":"Range rover HSE sport","category":"Voitures","region":"Essonne","town":"Evry","price":"14500","image":"http://img6.leboncoin.fr/thumbs/e64/e646a05c3449550a2a4e264340122c2fff36026f.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"820727393","url":"http://www.leboncoin.fr/animaux/820727393.htm?ca=12_s","title":"Hamsters","category":"Animaux","region":"Seine-et-Marne","town":"Cr\u00e9cy-la-Chapelle","price":"8","image":"http://img0.leboncoin.fr/thumbs/3b1/3b108c6d4e80f28623c970c5f6ba151397d67527.jpg","nb_images":"2","date":"Aujourd''hui 21:51"},{"ref":"820727391","url":"http://www.leboncoin.fr/decoration/820727391.htm?ca=12_s","title":"Beurrier ancien","category":"D&eacute;coration","region":"Seine-et-Marne","town":"Chaintreaux","price":"3","image":"http://img4.leboncoin.fr/thumbs/1d2/1d2ddffaf7ea793e40c0d538afb4f5293f343cc7.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"794717420","url":"http://www.leboncoin.fr/outillage_materiaux_2nd_oeuvre/794717420.htm?ca=12_s","title":"L&egrave;ve plaque","category":"Outillage &#45; Mat&eacute;riaux 2nd&#45;oeuvre","region":"Seine-Saint-Denis","town":"Rosny-sous-Bois","price":"150","image":"http://img1.leboncoin.fr/thumbs/014/014a0b134c1c9598893eb394694bd1995e46d21d.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"820727387","url":"http://www.leboncoin.fr/vetements/820727387.htm?ca=12_s","title":"Costume Gar&ccedil;on 6 ans Mariage/bapt&ecirc;me","category":"V&ecirc;tements","region":"Val-de-Marne","town":"Villejuif","price":"15","image":"http://img3.leboncoin.fr/thumbs/cea/ceaaf313f50ed29f7444aa6fa0ac64e0050d45a0.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"809384100","url":"http://www.leboncoin.fr/billetterie/809384100.htm?ca=12_s","title":"4 Entr&eacute;e Disneyland 1J/2P + FastPass 20 au 22 juin","category":"Billetterie","region":"Seine-et-Marne","town":"Chalifert","price":"35","image":"http://img5.leboncoin.fr/thumbs/a12/a12a08332be0c57e93c828bdec025f4442980034.jpg","nb_images":"1","date":"Aujourd''hui 21:51"},{"ref":"820727376","url":"http://www.leboncoin.fr/equipement_auto/820727376.htm?ca=12_s","title":"Radiateur de clim mini countryman","category":"Equipement Auto","region":"Seine-Saint-Denis","town":"Noisy-le-Grand","price":"150","image":"http://img0.leboncoin.fr/thumbs/4f8/4f83a8d3fa2b302fd27e484e71a3a8eca4b9efa5.jpg","nb_images":"2","date":"Aujourd''hui 21:51"},{"ref":"820727374","url":"http://www.leboncoin.fr/ameublement/820727374.htm?ca=12_s","title":"Table de nuit","category":"Ameublement","region":"Seine-et-Marne","town":"Villenoy","price":"20","image":"http://img4.leboncoin.fr/thumbs/93b/93bb3489202cb5d222a788be35aa0e76859db0e2.jpg","nb_images":"2","date":"Aujourd''hui 21:51"},{"ref":"716493974","url":"http://www.leboncoin.fr/jeux_jouets/716493974.htm?ca=12_s","title":"Voiture t&eacute;l&eacute;command&eacute;e CHICCO","category":"Jeux &amp; Jouets","region":"Hauts-de-Seine","town":"Montrouge","price":"10","image":"http://img5.leboncoin.fr/thumbs/6d0/6d0becb9b8e099b2a0f1edec1d38ed42c4f9d254.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"769859087","url":"http://www.leboncoin.fr/equipement_auto/769859087.htm?ca=12_s","title":"Attelage Laguna berline","category":"Equipement Auto","region":"Val-d''Oise","town":"Soisy-sous-Montmorency","price":"50","image":"http://img1.leboncoin.fr/thumbs/cd3/cd34bbc56f8ca3ce5f7dcef8546540b93ae7539b.jpg","nb_images":"2","date":"Aujourd''hui 21:51"},{"ref":"820727344","url":"http://www.leboncoin.fr/equipement_bebe/820727344.htm?ca=12_s","title":"Transat cocoon bebe confort","category":"Equipement b&eacute;b&eacute;","region":"Seine-Saint-Denis","town":"Le Blanc-Mesnil","price":"30","image":"http://img3.leboncoin.fr/thumbs/440/4406088c744b90f6a19cc65d9c7874a94e214c4b.jpg","nb_images":"2","date":"Aujourd''hui 21:51"},{"ref":"575989766","url":"http://www.leboncoin.fr/jeux_jouets/575989766.htm?ca=12_s","title":"Jouets pour poussette","category":"Jeux &amp; Jouets","region":"Yvelines","town":"Les Mureaux","price":"3","image":"http://img2.leboncoin.fr/thumbs/d1a/d1a7bd049655265c3568395394e541f0dc804e5c.jpg","nb_images":"1","date":"Aujourd''hui 21:51"},{"ref":"550645065","url":"http://www.leboncoin.fr/livres/550645065.htm?ca=12_s","title":"Lot de 3 livres martha grimes","category":"Livres","region":"Seine-Saint-Denis","town":"Gagny","price":"4","image":"http://img7.leboncoin.fr/thumbs/a31/a315a3fd6c0c63ee83adecce68b7e2c5fed1888d.jpg","nb_images":"1","date":"Aujourd''hui 21:51"},{"ref":"820727333","url":"http://www.leboncoin.fr/ventes_immobilieres/820727333.htm?ca=12_s","title":"Appartement  68m2 a Bois Colombes ","category":"Ventes immobili&egrave;res","region":"Hauts-de-Seine","town":"Bois-Colombes","price":"359000","image":"http://img7.leboncoin.fr/thumbs/d3e/d3edbbc89d330818b64f7f06e0904dcfc02c67bf.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"820727321","url":"http://www.leboncoin.fr/jeux_jouets/820727321.htm?ca=12_s","title":"Mallette de Poker","category":"Jeux &amp; Jouets","region":"Hauts-de-Seine","town":"Saint-Cloud","price":"20","image":"http://img1.leboncoin.fr/thumbs/d34/d34439ffcb9d977ae48b541b2ba7d6f3c0faef51.jpg","nb_images":"1","date":"Aujourd''hui 21:51"},{"ref":"814977877","url":"http://www.leboncoin.fr/equipement_auto/814977877.htm?ca=12_s","title":"Ump pipe d''orignie subaru wrx 2001 2002 120000 km","category":"Equipement Auto","region":"Seine-et-Marne","town":"Saint-Pathus","price":"60","image":"http://img0.leboncoin.fr/thumbs/8bf/8bff46d2c1daf36bd54a4a780647e1c0b6f988aa.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"795065797","url":"http://www.leboncoin.fr/prestations_de_services/795065797.htm?ca=12_s","title":"ENLEVEMENT D''EPAVE GRATUiT tout ile de France","category":"Prestations de services                                                                                                                   (pro)","region":"Hauts-de-Seine","town":"Rueil-Malmaison","price":"10","image":"http://img5.leboncoin.fr/thumbs/6bd/6bd48bcbc01a825055ac15a4d785a545ef22e13a.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"820727309","url":"http://www.leboncoin.fr/livres/820727309.htm?ca=12_s","title":"Palais de J.COEUR ( Favi&egrave;re)en GB ou F port inclus","category":"Livres","region":"Seine-et-Marne","town":"Vaux-le-P\u00e9nil","price":"3","image":"http://img2.leboncoin.fr/thumbs/922/922ff1e5d958ce34a044d35d660a6ad3a7ecb66b.jpg","nb_images":"2","date":"Aujourd''hui 21:51"},{"ref":"820727303","url":"http://www.leboncoin.fr/ameublement/820727303.htm?ca=12_s","title":"Meuble de rangement 2 cases noir ALINEA","category":"Ameublement","region":"Paris 17&egrave;me","town":"all","price":"10","image":"http://img5.leboncoin.fr/thumbs/4bf/4bfb7bebe7ee134ba2db6bf23449f183f7807813.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"820727301","url":"http://www.leboncoin.fr/equipement_bebe/820727301.htm?ca=12_s","title":"Table &agrave; langer  combelle fabriqu&eacute; en france ","category":"Equipement b&eacute;b&eacute;","region":"Val-de-Marne","town":"Villejuif","price":"25","image":"http://img0.leboncoin.fr/thumbs/abe/abee59d34e5f4178073af374587458bf4cafa006.jpg","nb_images":"2","date":"Aujourd''hui 21:51"},{"ref":"820727299","url":"http://www.leboncoin.fr/chaussures/820727299.htm?ca=12_s","title":"Escarpins taille 38 COMPTOIR DES COTONNIERS TTBE","category":"Chaussures","region":"Paris 15&egrave;me","town":"all","price":"85","image":"http://img2.leboncoin.fr/thumbs/a5b/a5baaf0882b93111e72ffb5c66a53c3ca920f5da.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"820727296","url":"http://www.leboncoin.fr/voitures/820727296.htm?ca=12_s","title":"KIA CEE D 1.4 CRDI STYLE 90ch","category":"Voitures","region":"Seine-et-Marne","town":"Mont\u00e9vrain","price":"12690","image":"http://img4.leboncoin.fr/thumbs/fc6/fc6344b4800022a3eda87668888b8c115e697075.jpg","nb_images":"3","date":"Aujourd''hui 21:51"},{"ref":"820727294","url":"http://www.leboncoin.fr/equipement_moto/820727294.htm?ca=12_s","title":"Travers avant Ford Mondeo","category":"Equipement Moto","region":"Seine-et-Marne","town":"Mitry-Mory","price":"120","image":"http://img6.leboncoin.fr/thumbs/28c/28c0cd46771822bf2d19bd87f7d0dcf4939eca2f.jpg","nb_images":"1","date":"Aujourd''hui 21:51"},{"ref":"769847682","url":"http://www.leboncoin.fr/equipement_auto/769847682.htm?ca=12_s","title":"Maitre cylindre de freins AX","category":"Equipement Auto","region":"Val-d''Oise","town":"Soisy-sous-Montmorency","price":"50","image":"http://img3.leboncoin.fr/thumbs/3b0/3b0ef3e94fb9f2f9441a1679440bad0c8c072da8.jpg","nb_images":"2","date":"Aujourd''hui 21:51"},{"ref":"165509506","url":"http://www.leboncoin.fr/collection/165509506.htm?ca=12_s","title":"MENUS AIR FRANCE (Bicentenaire de la R&eacute;volution)","category":"Collection","region":"Seine-et-Marne","town":"Meaux","price":"30","image":"http://img6.leboncoin.fr/thumbs/fef/fef50f91aa342a72fa06c02febb1fbca0c09c369.jpg","nb_images":"2","date":"Aujourd''hui 21:51"},{"ref":"813779921","url":"http://www.leboncoin.fr/voitures/813779921.htm?ca=12_s","title":"Audi 4 1.9 tdi pack","category":"Voitures                                                                                                                   (pro)","region":"Hauts-de-Seine","town":"Boulogne-Billancourt","price":"2990","image":"http://img4.leboncoin.fr/thumbs/b09/b093db7da21ef09475e727426d89488eab95834a.jpg","nb_images":"5","date":"Aujourd''hui 21:51"},{"ref":"820727281","url":"http://www.leboncoin.fr/vetements/820727281.htm?ca=12_s","title":"N&deg;91 &#45; Pantalon CYRILLUS 7 Ans &#45; grab92","category":"V&ecirc;tements","region":"Hauts-de-Seine","town":"Rueil-Malmaison","price":"3","image":"http://img5.leboncoin.fr/thumbs/014/01465020a8fbb63977b39126969229ab6d55c825.jpg","nb_images":"1","date":"Aujourd''hui 21:51"},{"ref":"794558464","url":"http://www.leboncoin.fr/vetements/794558464.htm?ca=12_s","title":"Gilet fourrure/lainage catimini r&eacute;versible","category":"V&ecirc;tements","region":"Seine-Saint-Denis","town":"Les Lilas","price":"12","image":"http://img0.leboncoin.fr/thumbs/81f/81fca349ea7310a84c3cf298b1fdd8924e00f8e8.jpg","nb_images":"2","date":"Aujourd''hui 21:51"},{"ref":"624748215","url":"http://www.leboncoin.fr/chaussures/624748215.htm?ca=12_s","title":"Bottes atomic size 5 ( tha )","category":"Chaussures","region":"Yvelines","town":"Mareil-sur-Mauldre","price":"25","image":"http://img3.leboncoin.fr/thumbs/3c8/3c890781cdc55f0757bbb50a2980374a0a7a502d.jpg","nb_images":"1","date":"Aujourd''hui 21:51"},{"ref":"820727262","url":"http://www.leboncoin.fr/collection/820727262.htm?ca=12_s","title":"Figurine DISNEY LENOX CHESHIERE chagt alice 24gold","category":"Collection","region":"Seine-et-Marne","town":"Serris","price":"85","image":"http://img7.leboncoin.fr/thumbs/57e/57e6ec137d7eb5d040fe30c34fae31e9f5acfc21.jpg","nb_images":"1","date":"Aujourd''hui 21:50"},{"ref":"820727257","url":"http://www.leboncoin.fr/accessoires_bagagerie/820727257.htm?ca=12_s","title":"Originale Sac Chanel vintage","category":"Accessoires &amp; Bagagerie","region":"Yvelines","town":"Maisons-Laffitte","price":null,"image":"http://img6.leboncoin.fr/thumbs/b07/b07e4aed4ffaeb2161c462d4e0128f981d3cdd94.jpg","nb_images":"3","date":"Aujourd''hui 21:50"},{"ref":"820727255","url":"http://www.leboncoin.fr/ameublement/820727255.htm?ca=12_s","title":"Penderie PAX, portes coulissantes, 150x201x58","category":"Ameublement","region":"Paris 15&egrave;me","town":"all","price":"120","image":"http://img5.leboncoin.fr/thumbs/f76/f764dd9607135ad3bfff6718bdf05574d79d2c1e.jpg","nb_images":"3","date":"Aujourd''hui 21:50"}]}');
+INSERT INTO cache VALUES (44, '2015-06-18 22:11:14', 'http://www.leboncoin.fr/annonces/820722606.htm', '{"ref":"820722606","ads":"offers","type":"ind","user":"monture","region":"Oise","town":"Breteuil","postal":"60120","category":"Accessoires & Bagagerie","title":"Monture","price":null,"description":"             A vendre diverses montures en tr\u00e8s bon \u00e9tat.\r\n\r\nFaire offre         ","date":"18 juin 21:40","image":"http://img0.leboncoin.fr/images/b72/b725af5df29b50e4ab5416bb6b9d96a6f9be86fb.jpg","nb_images":3,"thumbs":["http://img0.leboncoin.fr/thumbs/b72/b725af5df29b50e4ab5416bb6b9d96a6f9be86fb.jpg","http://img1.leboncoin.fr/thumbs/750/750427f76944bd57da13dc82fd2bfe5b733b1d0e.jpg","http://img0.leboncoin.fr/thumbs/6a8/6a89d81d572c59288bfe0f13354749e3c7e08f87.jpg"]}');
+INSERT INTO cache VALUES (45, '2015-06-18 22:13:00', 'http://www.leboncoin.fr/annonces/820098496.htm', '{"ref":"820098496","ads":"offers","type":"ind","user":"jvm_2007","region":"Paris","town":"Paris","postal":"75015","category":"CD / Musique","title":"Miles DAVIS album Porgy and Bess","price":"5","description":"             Miles DAVIS album Porgy and Bess CD comme le bo\u00eetier en parfait \u00e9tats.\r\n\r\nEnvoi possible +  2.50 de frais apr\u00e8s r\u00e9ception du virement ou Paypal\r\nj''ai plus de 200 CD a vendre liste sur demande\r\n\r\nRemise en main propre Paris 15 convention         ","date":"17 juin 12:36","image":"http://img6.leboncoin.fr/images/0a1/0a18d20237222d4ff4eb440937fb7246c245cee0.jpg","nb_images":3,"thumbs":["http://img6.leboncoin.fr/thumbs/0a1/0a18d20237222d4ff4eb440937fb7246c245cee0.jpg","http://img7.leboncoin.fr/thumbs/2cd/2cd7c53edb82a0b45eede2e2756153160477b89d.jpg","http://img4.leboncoin.fr/thumbs/6e3/6e3fca2a6f0c7911f0335bc4d67df01aa88cffce.jpg"]}');
+INSERT INTO cache VALUES (46, '2015-06-18 22:15:54', 'http://www.leboncoin.fr/annonces/820347989.htm', '{"ref":"820347989","ads":"offers","type":"ind","user":"Mathieu","region":"Val-de-Marne","town":"Vitry-sur-Seine","postal":"94400","category":"V\u00e9los","title":"Rockrider big rr","price":"250","description":"             Bonjour je vend mon velo rockrider big rr en tres bonne etat prix negociable          ","date":"17 juin 23:24","image":"http://img2.leboncoin.fr/images/55b/55b77460ac8eb6bb675a2ba892470039a6bd5599.jpg","nb_images":2,"thumbs":["http://img2.leboncoin.fr/thumbs/55b/55b77460ac8eb6bb675a2ba892470039a6bd5599.jpg","http://img7.leboncoin.fr/thumbs/741/7411f62847ef032407e6d855e7394876f6ff0018.jpg"]}');
+
+
+--
+-- TOC entry 2026 (class 0 OID 0)
+-- Dependencies: 176
+-- Name: cache_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('cache_id_seq', 46, true);
+
+
+--
+-- TOC entry 2013 (class 0 OID 16398)
+-- Dependencies: 174
+-- Data for Name: call; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO call VALUES (1067, 25, 0, '2015-06-18 22:03:28', NULL, 0);
+INSERT INTO call VALUES (1069, 25, 0, '2015-06-18 22:03:59', 'Alsace', 0);
+INSERT INTO call VALUES (1071, 10, 0, '2015-06-18 22:04:34', NULL, 0);
+INSERT INTO call VALUES (1073, 10, 0, '2015-06-18 22:06:26', NULL, 0);
+INSERT INTO call VALUES (1075, 25, 0, '2015-06-18 22:06:35', 'Alsace', 0);
+INSERT INTO call VALUES (1077, 25, 0, '2015-06-18 22:06:38', 'Alsace', 0);
+INSERT INTO call VALUES (1079, 25, 0, '2015-06-18 22:06:40', 'Alsace', 0);
+INSERT INTO call VALUES (1081, 25, 0, '2015-06-18 22:06:43', 'Alsace', 0);
+INSERT INTO call VALUES (1083, 25, 0, '2015-06-18 22:06:46', 'Alsace', 0);
+INSERT INTO call VALUES (1085, 25, 0, '2015-06-18 22:06:48', 'Alsace', 0);
+INSERT INTO call VALUES (1087, 25, 0, '2015-06-18 22:06:51', 'Alsace', 0);
+INSERT INTO call VALUES (1089, 10, 0, '2015-06-18 22:07:07', NULL, 0);
+INSERT INTO call VALUES (1091, 10, 0, '2015-06-18 22:07:10', NULL, 0);
+INSERT INTO call VALUES (1093, 10, 0, '2015-06-18 22:07:13', NULL, 0);
+INSERT INTO call VALUES (1095, 10, 0, '2015-06-18 22:07:15', NULL, 0);
+INSERT INTO call VALUES (1097, 10, 0, '2015-06-18 22:07:18', NULL, 0);
+INSERT INTO call VALUES (1099, 10, 0, '2015-06-18 22:07:47', NULL, 0);
+INSERT INTO call VALUES (1101, 10, 6, '2015-06-18 22:11:14', NULL, NULL);
+INSERT INTO call VALUES (1103, 10, 2, '2015-06-18 22:13:00', NULL, NULL);
+INSERT INTO call VALUES (1105, 19, 0, '2015-06-18 22:15:17', NULL, 0);
+INSERT INTO call VALUES (1107, 19, 0, '2015-06-18 22:15:22', NULL, 0);
+INSERT INTO call VALUES (1109, 19, 0, '2015-06-18 22:15:26', NULL, 0);
+INSERT INTO call VALUES (1111, 19, 0, '2015-06-18 22:15:31', NULL, 0);
+INSERT INTO call VALUES (1113, 19, 0, '2015-06-18 22:15:36', NULL, 0);
+INSERT INTO call VALUES (1115, 19, 0, '2015-06-18 22:15:39', NULL, 0);
+INSERT INTO call VALUES (1117, 19, 0, '2015-06-18 22:15:43', NULL, 0);
+INSERT INTO call VALUES (1119, 19, 0, '2015-06-18 22:15:46', NULL, 0);
+INSERT INTO call VALUES (1121, 19, 0, '2015-06-18 22:15:49', NULL, 0);
+INSERT INTO call VALUES (1123, 19, 0, '2015-06-18 22:15:52', NULL, 0);
+INSERT INTO call VALUES (1125, 19, 6, '2015-06-18 22:15:54', NULL, NULL);
+INSERT INTO call VALUES (1127, 19, 6, '2015-06-18 22:15:56', NULL, NULL);
+INSERT INTO call VALUES (1129, 19, 6, '2015-06-18 22:15:58', NULL, NULL);
+INSERT INTO call VALUES (1131, 19, 6, '2015-06-18 22:16:00', NULL, NULL);
+INSERT INTO call VALUES (1133, 19, 6, '2015-06-18 22:16:02', NULL, NULL);
+INSERT INTO call VALUES (1135, 19, 6, '2015-06-18 22:16:03', NULL, NULL);
+INSERT INTO call VALUES (1137, 19, 6, '2015-06-18 22:16:05', NULL, NULL);
+INSERT INTO call VALUES (1139, 19, 6, '2015-06-18 22:16:07', NULL, NULL);
+INSERT INTO call VALUES (1141, 19, 6, '2015-06-18 22:16:09', NULL, NULL);
+INSERT INTO call VALUES (1143, 19, 6, '2015-06-18 22:16:11', NULL, NULL);
+INSERT INTO call VALUES (144, 10, 3, '2015-06-17 13:51:05', 'Rhône-Alpes', 38);
+INSERT INTO call VALUES (140, 10, 8, '2015-06-17 13:44:22', 'Aquitaine', 2);
+INSERT INTO call VALUES (143, 10, 2, '2015-06-17 13:49:41', 'Aquitaine', 0);
+INSERT INTO call VALUES (139, 10, 7, '2015-06-17 13:16:21', 'Ile-de-France', 38);
+INSERT INTO call VALUES (145, 10, 4, '2015-06-17 13:52:11', 'Ile-de-France', 38);
+INSERT INTO call VALUES (141, 10, 0, '2015-06-17 13:45:37', 'Aquitaine', 0);
+INSERT INTO call VALUES (142, 10, 1, '2015-06-17 13:49:18', 'Nord-Pas-de-Calais', 2);
+INSERT INTO call VALUES (146, 10, 5, '2015-06-17 13:54:13', 'Alsace', 38);
+INSERT INTO call VALUES (771, 10, 0, '2015-06-18 14:39:02', 'Aquitaine', 0);
+INSERT INTO call VALUES (115, 10, 3, '2015-06-16 07:16:21', 'Ile-de-France', 2);
+INSERT INTO call VALUES (116, 10, 0, '2015-06-16 07:16:47', 'Alsace', 2);
+INSERT INTO call VALUES (117, 10, 0, '2015-06-16 07:17:00', 'Alsace', 20);
+INSERT INTO call VALUES (118, 10, 0, '2015-06-16 07:17:04', 'Alsace', 20);
+INSERT INTO call VALUES (119, 10, 0, '2015-06-16 07:17:11', 'Alsace', 3);
+INSERT INTO call VALUES (120, 10, 1, '2015-06-16 07:17:36', 'Nord-Pas-de-Calais', 20);
+INSERT INTO call VALUES (121, 10, 2, '2015-06-16 07:29:10', 'Ile-de-France', 3);
+INSERT INTO call VALUES (135, 10, 3, '2015-06-16 13:02:20', 'Provence-Alpes-Côte d''Azur', 20);
+INSERT INTO call VALUES (136, 10, 4, '2015-06-16 13:14:58', 'Ile-de-France', 3);
+INSERT INTO call VALUES (137, 10, 5, '2015-06-16 13:15:56', 'Provence-Alpes-Côte d''Azur', 3);
+INSERT INTO call VALUES (138, 10, 6, '2015-06-16 13:16:08', 'Aquitaine', 0);
+INSERT INTO call VALUES (151, 10, 0, '2015-06-17 13:57:02', 'Ile-de-France', 0);
+INSERT INTO call VALUES (156, 10, 0, '2015-06-17 13:58:44', 'Ile-de-France', 20);
+INSERT INTO call VALUES (162, 10, 0, '2015-06-17 13:59:31', 'Ile-de-France', 20);
+INSERT INTO call VALUES (1066, 25, 0, '2015-06-18 22:01:39', NULL, 0);
+INSERT INTO call VALUES (1068, 25, 0, '2015-06-18 22:03:34', NULL, 0);
+INSERT INTO call VALUES (1070, 25, 0, '2015-06-18 22:04:04', NULL, 0);
+INSERT INTO call VALUES (1072, 10, 0, '2015-06-18 22:06:15', NULL, 0);
+INSERT INTO call VALUES (1074, 25, 0, '2015-06-18 22:06:33', 'Alsace', 0);
+INSERT INTO call VALUES (1076, 25, 0, '2015-06-18 22:06:36', 'Alsace', 0);
+INSERT INTO call VALUES (1078, 25, 0, '2015-06-18 22:06:39', 'Alsace', 0);
+INSERT INTO call VALUES (1080, 25, 0, '2015-06-18 22:06:41', 'Alsace', 0);
+INSERT INTO call VALUES (1082, 25, 0, '2015-06-18 22:06:44', 'Alsace', 0);
+INSERT INTO call VALUES (1084, 25, 0, '2015-06-18 22:06:47', 'Alsace', 0);
+INSERT INTO call VALUES (1086, 25, 0, '2015-06-18 22:06:50', 'Alsace', 0);
+INSERT INTO call VALUES (1088, 25, 0, '2015-06-18 22:06:52', 'Alsace', 0);
+INSERT INTO call VALUES (1090, 10, 0, '2015-06-18 22:07:09', NULL, 0);
+INSERT INTO call VALUES (1092, 10, 0, '2015-06-18 22:07:12', NULL, 0);
+INSERT INTO call VALUES (1094, 10, 0, '2015-06-18 22:07:14', NULL, 0);
+INSERT INTO call VALUES (1096, 10, 0, '2015-06-18 22:07:17', NULL, 0);
+INSERT INTO call VALUES (1098, 10, 0, '2015-06-18 22:07:37', NULL, 0);
+INSERT INTO call VALUES (1100, 10, 0, '2015-06-18 22:09:59', 'Ile-de-France', 0);
+INSERT INTO call VALUES (1102, 19, 7, '2015-06-18 22:11:43', NULL, NULL);
+INSERT INTO call VALUES (1104, 10, 6, '2015-06-18 22:13:00', NULL, NULL);
+INSERT INTO call VALUES (1106, 19, 0, '2015-06-18 22:15:20', NULL, 0);
+INSERT INTO call VALUES (1108, 19, 0, '2015-06-18 22:15:24', NULL, 0);
+INSERT INTO call VALUES (1110, 19, 0, '2015-06-18 22:15:28', NULL, 0);
+INSERT INTO call VALUES (1112, 19, 0, '2015-06-18 22:15:33', NULL, 0);
+INSERT INTO call VALUES (1114, 19, 0, '2015-06-18 22:15:38', NULL, 0);
+INSERT INTO call VALUES (1116, 19, 0, '2015-06-18 22:15:41', NULL, 0);
+INSERT INTO call VALUES (1118, 19, 0, '2015-06-18 22:15:44', NULL, 0);
+INSERT INTO call VALUES (1120, 19, 0, '2015-06-18 22:15:47', NULL, 0);
+INSERT INTO call VALUES (1122, 19, 0, '2015-06-18 22:15:51', NULL, 0);
+INSERT INTO call VALUES (1124, 19, 0, '2015-06-18 22:15:54', NULL, 0);
+INSERT INTO call VALUES (1126, 19, 6, '2015-06-18 22:15:55', NULL, NULL);
+INSERT INTO call VALUES (1128, 19, 6, '2015-06-18 22:15:57', NULL, NULL);
+INSERT INTO call VALUES (1130, 19, 6, '2015-06-18 22:15:59', NULL, NULL);
+INSERT INTO call VALUES (1132, 19, 6, '2015-06-18 22:16:01', NULL, NULL);
+INSERT INTO call VALUES (1134, 19, 6, '2015-06-18 22:16:03', NULL, NULL);
+INSERT INTO call VALUES (1136, 19, 6, '2015-06-18 22:16:04', NULL, NULL);
+INSERT INTO call VALUES (1138, 19, 6, '2015-06-18 22:16:06', NULL, NULL);
+INSERT INTO call VALUES (1140, 19, 6, '2015-06-18 22:16:08', NULL, NULL);
+INSERT INTO call VALUES (1142, 19, 6, '2015-06-18 22:16:10', NULL, NULL);
+INSERT INTO call VALUES (1144, 19, 6, '2015-06-18 22:16:12', NULL, NULL);
+INSERT INTO call VALUES (147, 10, 6, '2015-06-17 13:54:30', 'Ile-de-France', 0);
+INSERT INTO call VALUES (149, 10, 8, '2015-06-17 13:55:32', 'Ile-de-France', 0);
+INSERT INTO call VALUES (154, 10, 3, '2015-06-17 13:58:26', 'Ile-de-France', 2);
+INSERT INTO call VALUES (157, 10, 1, '2015-06-17 13:58:55', 'Ile-de-France', 38);
+INSERT INTO call VALUES (159, 10, 3, '2015-06-17 13:59:20', 'Ile-de-France', 38);
+INSERT INTO call VALUES (160, 10, 4, '2015-06-17 13:59:24', 'Ile-de-France', 38);
+INSERT INTO call VALUES (150, 10, 0, '2015-06-17 13:55:48', 'Nord-Pas-de-Calais', 38);
+INSERT INTO call VALUES (155, 10, 4, '2015-06-17 13:58:39', 'Nord-Pas-de-Calais', 20);
+INSERT INTO call VALUES (152, 10, 1, '2015-06-17 13:58:15', 'Alsace', 3);
+INSERT INTO call VALUES (158, 10, 2, '2015-06-17 13:59:05', 'Alsace', 0);
+INSERT INTO call VALUES (772, 10, 0, '2015-06-18 14:41:03', 'Aquitaine', 0);
+INSERT INTO call VALUES (161, 10, 0, '2015-06-17 13:59:28', 'Aquitaine', 38);
+INSERT INTO call VALUES (153, 10, 2, '2015-06-17 13:58:21', 'Rhône-Alpes', 2);
+INSERT INTO call VALUES (148, 10, 7, '2015-06-17 13:55:23', 'Rhône-Alpes', 38);
+INSERT INTO call VALUES (918, 10, 0, '2015-06-16 19:26:09', NULL, 0);
+
+
+--
+-- TOC entry 2027 (class 0 OID 0)
+-- Dependencies: 172
+-- Name: call_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('call_id_seq', 1144, true);
+
+
+--
+-- TOC entry 2014 (class 0 OID 16403)
+-- Dependencies: 175
+-- Data for Name: profile; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO profile VALUES (13, 'password', 'username', 'lastname', 'email', 'MTMyNjI1NzExNw==', 'MjAxOTkyNTMxMw==', '', 'a:1:{i:0;s:9:"ROLE_USER";}', 1);
+INSERT INTO profile VALUES (14, 'password', 'username', 'lastname', 'email', 'MTY5OTQ5OTIwNw==', 'MTUyODI5NzY4NQ==', '', 'a:1:{i:0;s:9:"ROLE_USER";}', 1);
+INSERT INTO profile VALUES (15, 'password', 'username', 'lastname', 'email', 'NjAwNTgyNTU3', 'NjgzMjcwNDgx', '', 'a:1:{i:0;s:9:"ROLE_USER";}', 1);
+INSERT INTO profile VALUES (16, 'password', 'username', 'lastname', 'email', 'MTM1NjY5ODAyMg==', 'MTQ4NjAzMDQzOA==', '', 'a:1:{i:0;s:9:"ROLE_USER";}', 1);
+INSERT INTO profile VALUES (17, 'password', 'username', 'lastname', 'email', 'MTI3MDA2Mjc3Nw==', 'MTkwOTkyNjUzNw==', '', 'a:1:{i:0;s:9:"ROLE_USER";}', 1);
+INSERT INTO profile VALUES (18, 'test', 'test', 'test', 'test', 'ODQ0NDIzODI0', 'NTgzNDMyNDEy', '', 'a:1:{i:0;s:9:"ROLE_USER";}', 1);
+INSERT INTO profile VALUES (19, 'pwd', 'tommy', 'lopes', 'pierre.adfacebook@gmail.com', 'NjcyNjk2ODMy', 'MTgzNTMxMzE5MQ==', '', 'a:1:{i:0;s:9:"ROLE_USER";}', 0);
+INSERT INTO profile VALUES (22, 'test', 'test', 'test', 'test', 'MTk5NDkzNDcyNQ==', 'MTAwNjA3Mzg1Mg==', '', 'a:1:{i:0;s:9:"ROLE_USER";}', 1);
+INSERT INTO profile VALUES (23, '12345', 'clement', 'bourdin', 'tommyblopes@msn.com', 'MTY1NjI2NjQ4MQ==', 'NTE3ODQzODk3', '', 'a:1:{i:0;s:9:"ROLE_USER";}', 1);
+INSERT INTO profile VALUES (24, '12345', 'tommy', 'lopes', 'tommyblopes@msn.com', 'MTQwMTA0NzkyMA==', 'MTYzMDc0NDA4Mw==', '', 'a:1:{i:0;s:9:"ROLE_USER";}', 1);
+INSERT INTO profile VALUES (25, '12345', 'elie', 'toto', 'tommy.lopes@epita.fr', 'MzQ3OTcwMTk0', 'MTg1MzA1MzM0Ng==', '', 'a:1:{i:0;s:9:"ROLE_USER";}', 1);
+INSERT INTO profile VALUES (10, 'osef', 'pierre', 'sabot', 'pierre.adfacebook@gmail.com', 'MjA2MjQzNjEx', 'MjA3MTE1NTU4Nw==', '', 'a:1:{i:0;s:9:"ROLE_USER";}', 3);
+INSERT INTO profile VALUES (26, 'test', 'test', 'test', 'test', 'Nzk3OTI4MTEx', 'MTM0NTY1MjE1MQ==', '', 'a:1:{i:0;s:9:"ROLE_USER";}', 1);
+
+
+--
+-- TOC entry 2028 (class 0 OID 0)
+-- Dependencies: 173
+-- Name: profile_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('profile_id_seq', 26, true);
+
+
+--
+-- TOC entry 1901 (class 2606 OID 16425)
+-- Name: cache_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY cache
+    ADD CONSTRAINT cache_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1897 (class 2606 OID 16402)
+-- Name: call_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY call
+    ADD CONSTRAINT call_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1899 (class 2606 OID 16410)
+-- Name: profile_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY profile
+    ADD CONSTRAINT profile_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 2023 (class 0 OID 0)
+-- Dependencies: 5
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2015-06-19 18:23:14
+
+--
+-- PostgreSQL database dump complete
+--
+

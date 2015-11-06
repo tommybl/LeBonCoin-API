@@ -1,0 +1,332 @@
+html{
+    height: 100%;
+  }
+
+body
+{
+	background-color: #f1f2f7;
+}
+
+.chartcontainer
+{
+	background-color: #FFFFFF;
+	padding: 10px 0px;
+}
+
+.chartcontainer h3
+{
+	text-align: center;
+}
+
+#foo
+{
+	margin: auto;
+  	display: block;
+}
+
+#gauge-value
+{
+	text-align: center;
+	font-size: 15px;
+	font-weight: bold;
+	font-family: Open sans;
+}
+
+#sidebar
+{
+  width: 240px;
+  height: 100%;
+  position: fixed;
+  background: #32323a;
+}
+
+#sub-menu
+{
+	border-bottom:1px solid rgba(0,0,0,0.5);
+}
+
+#burger-menu
+{
+	color:#FFFFFF;
+	text-align: center;
+	background: #32323a;
+	width: 240px;
+	display: inline-block;
+}
+
+#vertical-sub-menu
+{
+	display: inline-block;
+}
+
+#burger-menu div
+{
+	padding: 20px 0px;
+}
+
+#burger-menu span
+{
+	margin-left: 10px;
+	font-family: Open sans;
+}
+
+#bo-content
+{
+	margin-left: 0px;
+	padding: 25px 50px;
+}
+
+#sidebar ul
+{
+	padding: 0px;
+	margin-top: 5px;
+}
+
+#sidebar ul li:hover, #sidebar ul li:active
+{
+	background-color: #28282e;
+	transition: all .3s ease-in-out;
+}
+
+#sidebar ul li a:hover, #sidebar ul li a:active
+{
+	color:#1DA879;
+}
+
+#sidebar ul li
+{
+	list-style-type: none;
+	padding: 15px;
+	border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+#sidebar ul li a
+{
+	color:#FFFFFF;
+	font-size: 16px;
+}
+
+#sidebar span 
+{
+	margin-left: 10px;
+	font-family: Open sans;
+	font-size: 12px;
+}
+
+#fork {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 0;
+}
+
+#legend {
+    float: right;
+  	margin-right: 30px;
+  	margin-top: 45px;
+}
+
+.legend .title {
+    display: block;
+    margin-bottom: 0.5em;
+    line-height: 1.2em;
+    padding: 0 0.3em;
+}
+
+.legend .color-sample {
+    display: block;
+    float: left;
+    width: 1em;
+    height: 1em;
+    border: 2px solid; /* Comment out if you don't want to show the fillColor */
+    border-radius: 0.5em; /* Comment out if you prefer squarish samples */
+    margin-right: 0.5em;
+}
+
+#myChart,  #myChart2
+{
+	margin-left: 20px;
+}
+
+.group-clear
+{
+	clear: both;
+}
+
+
+#bo-content #pricing
+{
+	background: none;
+  overflow:hidden;
+  padding:0px;
+}
+
+#bo-content #pricing h3
+{
+  font-family: 'montserrat', sans-serif;
+  background-color: #1DA879;
+  text-transform: uppercase;
+  text-align: center;
+  color: #fff;
+  padding: 30px 0px;
+  font-size: 20px;
+  margin-top: 0px;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 10px 10px 0px 0px;
+  border-radius: 10px 10px 0px 0px;
+}
+
+#bo-content #pricing ul
+{
+  padding: 0px;
+  margin-left:40px;
+  margin-right: 40px;
+}
+
+#bo-content #pricing ul li {
+  list-style-type: none;
+  color: #747C89;
+  text-align: center;
+  font-size: 20px;
+  border-bottom: 1px solid #747C89;
+  padding: 25px 0px;
+}
+
+#bo-content .pricing-item
+{
+  background-color: #fff;
+  padding: 0px;
+  border-radius: 10px;
+  border:1px solid #ddd;
+}
+
+#bo-content #pricing button
+{
+  margin: 25px auto 25px auto;
+  display: block;
+  background-color: #1DA879;
+  padding: 10px 20px;
+  border: none;
+  color: #fff;
+}
+
+#bo-content #pricing button:hover
+{
+  background-color: #181A1C;
+  color:#1DA879;
+}
+
+.current_offer
+{
+	opacity: 0.5;
+}
+
+.annoncesList div:first
+{
+  border-top: 1px solid #ddd;
+}
+
+.annoncesList
+{
+  border-bottom: 1px solid #ddd;
+  padding: 30px 0px;
+  position: relative;
+}
+
+#annonces
+{
+  height: 100%;
+  overflow: scroll;
+  position: fixed;
+  top: 152px;
+}
+
+.imageMain, .thumbs
+{
+  margin: auto;
+  display: block;
+  text-align: center;
+}
+
+.displayAnnonce
+{
+  display: block;
+  overflow: hidden;
+}
+
+.imagethumb
+{
+  height: 100px;
+  width: 100%;
+}
+
+.label-price
+{
+  background: #fca932;
+  font-weight: bold;
+  position: absolute;
+  font-size: 15px;
+  right: 0px;
+  bottom: 17px;
+}
+
+.date
+{
+  position: absolute;
+  right: 90px;
+  bottom: 17px;
+  font-size: 12px;
+  font-style: italic;
+  opacity: 0.6;
+}
+
+.userInfos
+{
+  width: 100%;
+  border-top: 1px solid #181A1C;
+  border-bottom: 1px solid #181A1C;
+  padding: 10px;
+  margin: 15px 0px;
+}
+
+.userName
+{
+  display: inline-block;
+  font-weight: bold;
+  font-size: 20px;
+  vertical-align: text-bottom;
+}
+
+.userAddress, .aDate, .aPrice, .aMail
+{
+  display: inline-block;
+  margin-left: 50px;
+  vertical-align: middle;
+}
+
+.userAddress
+{
+  vertical-align: bottom !important;
+}
+
+.region
+{
+  display: block;
+}
+
+.desc
+{
+  padding-bottom: 50px;
+}
+
+.aMail a
+{
+  text-decoration: none;
+}
+
+.contact
+{
+  border-top: 1px solid;
+  padding-top: 15px;
+  margin-top: 15px;
+}

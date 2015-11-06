@@ -1,0 +1,30 @@
+security:
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+        MTI\UserBackOfficeBundle\Entity\Profile: plaintext
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        main:
+            entity: { class: MTI\UserBackOfficeBundle\Entity\Profile, property: username }
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt|error)|css|images|js)/
+            security: false
+        main:
+            pattern:   ^/
+            anonymous: true
+            provider:  main
+            form_login:
+                login_path: login
+                check_path: login_check
+            logout:
+                path:   logout
+                target: /
+
+        default:
+            anonymous: ~

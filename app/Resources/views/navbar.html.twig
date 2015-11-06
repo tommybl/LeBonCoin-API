@@ -1,0 +1,34 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{{ path('homepage') }}">LaBonneApi</a>
+      {% if app.user %}
+      Bonjour {{ app.user.username }}
+      {% endif %}
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#pricing">Nos offres</a></li>
+        <li><a href="#">Le produit</a></li>
+        {% if app.user  == null %}
+        <li><a href="#" data-toggle="modal" data-target="#myModal">Connexion</a></li>
+        {% endif %}
+        {% if app.user == null %}
+        <li><a href="#" data-toggle="modal" data-target="#myModal2">Inscription</a></li>
+        {% endif %}
+        {% if app.user %}
+        <li><a href="{{ path('mti_user_back_office_homepage') }}">Mon compte</a></li>
+        {% endif %}
+        {% if app.user %}
+        <li><a href="{{ path('logout') }}">Logout</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>

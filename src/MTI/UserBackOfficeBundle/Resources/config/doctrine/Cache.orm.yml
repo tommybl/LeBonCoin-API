@@ -1,0 +1,19 @@
+MTI\UserBackOfficeBundle\Entity\Cache:
+    type: entity
+    table: cache
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        created:
+            type: datetime
+        request:
+            type: string
+            length: 1000
+        response:
+            type: string
+            length: 30000
+
+    lifecycleCallbacks:
+        prePersist: [setCreatedValue]
