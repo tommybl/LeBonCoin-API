@@ -1,6 +1,5 @@
 # ApiProject
-> Restful API / PHP / Symfony2 / Solo Project
-
+> Restful API / PHP / Symfony2 / Group of 2
 * Conception, Design, Programming
 * PHP5, Symfony2, PostgreSql, Bootstrap, Google Charts
 * Group of 2
