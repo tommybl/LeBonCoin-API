@@ -9,6 +9,8 @@ Our platform allowed user to check and post Ads directly from there, very simpli
 The user could also apply to Ads and contact the sellers directly from our platform and save them.
 Finally he could check all his statistics through a personalized Dashboard.
 
+### Screenshots
+
 ![alt tag](screenshots/1.png)
 
 ![alt tag](screenshots/2.png)
